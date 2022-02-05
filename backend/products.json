@@ -1,0 +1,35 @@
+{
+  "products": [
+    {
+      "namn": "Apple",
+      "pris": 23,
+      "bild": "/images/apple.jpg"
+    },
+    {
+      "namn": "Apelsin",
+      "pris": 32,
+      "bild": "/images/apelsin.jpg"
+    },
+    {
+      "namn": "Banan",
+      "pris": 42,
+      "bild": "/images/banan.jpg"
+    },
+    {
+      "namn": "Gurka",
+      "pris": 66,
+      "bild": "/images/gurka.jpg"
+    },
+    {
+      "namn": "Vattenmelon",
+      "pris": 45,
+      "bild": "/images/vattenmellon.jpg"
+    },
+    {
+      "namn": "Potatis",
+      "pris": 17,
+      "bild": "/images/potatis.jpg"
+    }
+  ],
+  "varukorg": []
+}
