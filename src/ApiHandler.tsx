@@ -6,9 +6,12 @@
 *
 */
 
+import AuthUser from "./authUserClass";
+
 // a class to handle the api
 export default class ApiHandler {
-    fetchInfo: { baseUrl: string; method: string; endpoint: string; headers: { 'Content-Type': string; }; paramName: string; paramValue: string; requestBody: any; page: string; };
+    fetchInfo: { baseUrl: string; method: string; endpoint: string; headers: { 'Content-Type': string; 'Accept'?: string ;'Authorization'?: string}, paramName: string; paramValue: string; requestBody: any; page: string; };
+  //  authUser: AuthUser;
 
     // let's construct it by setting default values to our api
     constructor() {
@@ -19,12 +22,16 @@ export default class ApiHandler {
             endpoint: "products",
             headers: {
                 'Content-Type': 'application/json'
+                
             },
             paramName: "",
             paramValue: "",
             requestBody: "",
             page: ""
         };
+
+       
+
     }
 
     // prepare api url with the help of our fetchinfo property
@@ -304,6 +311,13 @@ export default class ApiHandler {
         this.fetchInfo.paramName = "";
         this.fetchInfo.paramValue = "";
         this.fetchInfo.page = "shopping-cart";
+
+       // const token = AuthUser.getToken()
+
+        this.fetchInfo.headers = {
+        //    'Authorization': "Bearer "+token,
+            'Content-Type': 'application/json'
+          };
 
         // execute the call
         var val = await this.coonectTopApi();

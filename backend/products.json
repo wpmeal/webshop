@@ -31,5 +31,25 @@
       "bild": "/images/potatis.jpg"
     }
   ],
-  "varukorg": []
+  "varukorg": [
+    {
+      "namn": "Banan",
+      "pris": 42,
+      "bild": "/images/banan.jpg"
+    }
+  ],
+  "staff": [
+    {
+      "username": "Ada",
+      "password": "$2b$10$zAaxd5Jk9xa0ARtnygdI5ue3Z/zmHNbwPCBkrP79.rLtuuybNCf5e",
+      "id": "hFGlJMzZTKbBuPJYTAsJH",
+      "address": "YellowStone valley, street 101, zipcode 4564645, Mi, USA"
+    },
+    {
+      "username": "omar",
+      "password": "$2b$10$WjJqHWx1ZukAu7yntZWXPO9PfSl1ZAExZDoxGsaLLAJoPWaOKhMKm",
+      "id": "_DW-mZnKlSyhlILuRn-YY",
+      "address": "Kastvindsgatan 2C lgh 2343, 41714, Gothenburg"
+    }
+  ]
 }

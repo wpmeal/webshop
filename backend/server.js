@@ -11,6 +11,8 @@ const lowdb = require('lowdb');
 const express = require('express');
 const FileSync = require('lowdb/adapters/FileSync');
 const { request } = require('express');
+//const { comparePassword } = require('../utility/bcrypt');
+
 
 // Calling Express Lib
 const app = express();
@@ -25,6 +27,13 @@ app.use(express.json());
 const adapter = new FileSync('products.json');
 // calling lowdb with a product.json as the resource file
 const database = lowdb(adapter);
+
+const bcrypt = require('bcrypt');
+
+const jwt = require('jsonwebtoken');
+
+const {user} = require('./middleware/auth')
+
 
 /* 
 * Fetch all products from DB
@@ -161,7 +170,7 @@ app.delete("/api/varukorg/name/:name", (request, response) => {
 * Endpoint: /varukorg/
 * Base /api/ 
 */
-app.get("/api/varukorg/", (request, response) => {
+app.get("/api/varukorg/",  (request, response) => {
     try {
 
         ProductsInVarukorg = database.get("varukorg").value();
@@ -180,6 +189,113 @@ app.get("/api/varukorg/", (request, response) => {
             "message": e.message
         });
     }
+});
+
+
+/* 
+* Get matched credentials  for a user from db
+* Params: credentialsDb: an obj with username and password
+* Return: user from db that matches the credentials
+*/
+function getCredentialsDB(credentials){
+
+    const credentialsDb = database.get('staff')
+    .find({ username: credentials.username })
+    .value();
+  
+  if (!credentialsDb) {
+    throw new Error("Fel användarnamn/lösenord!");
+  
+  }
+  
+  return credentialsDb;
+  
+  }
+  
+  /* 
+  * Check if credentials match the username and encrypted password in db
+  * Params: credentialsDb: an obj with username and password
+  * Return: user from db that matches the credentials
+  */
+  async function checkCredentials(credentials) {
+  
+    let result = false;
+    // find the credintilas in  db
+    const credentialsDb = getCredentialsDB(credentials);
+    // reassign  encrypted password 
+    const hashedDbPassword = credentialsDb.password;
+     // log request password 
+    console.log("Password from user: " + credentials.password);
+    // log  encrypted password
+    console.log("Hashed Password: " + hashedDbPassword);
+   // compare if request password matches the encrypted password
+    const comparePasswordResult = await comparePassword(credentials.password, hashedDbPassword);
+     // log the comparing result
+    console.log("Compare Password: " + comparePasswordResult);
+    // if the comparing result is false throw en error
+    if (!comparePasswordResult) {
+      throw new Error("Fel användarnamn/lösenord!");
+    }
+    // return credentials for positive checking 
+    return result = credentialsDb;;
+  
+  }
+
+/*
+* ComparePassword
+* params: unhashed password, hashed password
+* return boolean 
+*/
+
+//const saltRounds = 10;
+
+async function comparePassword(password, hash) {
+  // compare hashed pass to human pass 
+  const isTheSame = await bcrypt.compare(password, hash);
+  return isTheSame;
+}
+/* 
+* Login
+* Endpoint: /login/
+* Base /api/ 
+*/
+app.post("/api/login/", async (request, response) => {
+
+    let result = null;
+
+    try {
+      // Reassign the request body  
+      const credentials = request.body;
+  
+      // Check credentials result
+      const credentialsDB = await checkCredentials(credentials); 
+   
+      // Log loggedIn user
+      console.log('User', credentialsDB.username);
+  
+      // Sign loggedIn user using jwt  
+      const token = jwt.sign({ id: credentialsDB.id }, 'a1b1c1', {
+        expiresIn: 6000 //Går ut om 10 minuter 
+      });
+      // reassign the token of signed user 
+      result = token;
+  
+      // catch any throwable error from CheckCredentials or jwt.sign 
+    } catch (e) {
+      // log error to server  
+      console.log(e.message);
+  
+      // assign catched error as json obj
+      result = {
+        "error": e.name,      
+        "message": e.message
+      };
+  
+    }
+   // return result
+    response.json(result);
+  
+  
 });
 
 // start a new server on port:8000
