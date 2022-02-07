@@ -7,7 +7,7 @@ export default function Home() {
     return (
 <div className="wrapper">
             <header>
-                <Link to="varukorg"><i id="basket" className="fa badge">&#xf07a;</i></Link>
+                <Link to="cart"><i id="basket" className="fa badge">&#xf07a;</i></Link>
                 <Login />
 
             </header>

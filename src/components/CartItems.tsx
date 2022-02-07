@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import ApiHandler from '../ApiHandler'
+import ApiHandler from '../core/ApiHandler'
+import CartClass from '../core/CartClass';
 
-export default function VarukorgItems() {
+export default function CartItems() {
 
 
     const [items, setItems] = useState([])
 
-    const apiHandler = new ApiHandler()
+    const cartClass = new CartClass
   
   
     async function varokurgItems() {
   
-      const varoItems: any = await apiHandler.getVarokurgItems()
+      const varoItems: any = await cartClass.getVarokurgItems()
   
       setItems(varoItems)
   

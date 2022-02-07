@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import AuthUser from "../authUserClass";
+import UserClass from "../core/UserClass";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -11,7 +11,7 @@ export default function Login() {
 
 
 
-  const authUser = new AuthUser()
+  const userClass = new UserClass()
   
 
   function validateForm() {
@@ -21,7 +21,7 @@ export default function Login() {
  async function handleSubmit(event:any) {
    event.preventDefault();
 
- const result = await authUser.login(email, password)
+ const result = await userClass.login(email, password)
 
 
   if(!result.error){
@@ -32,7 +32,7 @@ export default function Login() {
     const token = result
 
     // save token received from backed 
-    await authUser.saveToken(token)
+    await userClass.saveToken(token)
 
 
    // location.href = "verifyBiljett.html";

@@ -6,7 +6,7 @@ import Products from './components/Products';
 
 import './style.css'
 import Home from './pages/Home';
-import Varukorg from './pages/Varokurg';
+import Cart from './pages/Cart';
 
 function App() {
 
@@ -17,7 +17,7 @@ return (<>
 
 <Routes>
   <Route path="/" element={<Home/>}></Route>
-  <Route path="/varukorg" element={<Varukorg/>}></Route>
+  <Route path="/cart" element={<Cart/>}></Route>
 
   
 </Routes>  

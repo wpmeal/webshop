@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import ApiHandler from '../ApiHandler'
+import ApiHandler from '../core/ApiHandler'
+import ProductClass from '../core/ProductClass';
 
 function Products() {
 
@@ -7,12 +8,12 @@ function Products() {
 
   const [items, setItems] = useState([])
 
-  const apiHandler = new ApiHandler()
+  const productClass = new ProductClass
 
 
   async function initProductsClass() {
 
-    const products: any = await apiHandler.getProdducts();
+    const products: any = await productClass.getProdducts();
 
     setItems(products)
 

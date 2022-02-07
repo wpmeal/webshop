@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import VarukorgItems from '../components/VarukorgItems';
+import CartItems from '../components/CartItems';
 
 
-export default function Varukorg() {
+export default function Cart() {
     return (
            <div className="wrapper shopping-cart">
 
@@ -14,7 +14,7 @@ export default function Varukorg() {
         </header>
         <main id="shopping-cart">
             
-      <VarukorgItems />
+      <CartItems />
     </main>
     </div>
         

@@ -3,7 +3,7 @@ import ApiHandler from "./ApiHandler";
 /*
 * A Class to authenticate and  authorise the user
 */
-export default class AuthUser {
+export default class UserClass {
 
 
   initConnection:ApiHandler
