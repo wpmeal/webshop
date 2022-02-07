@@ -27,9 +27,13 @@ header {
     display: inline-flex;
 
 }
-main {
-    grid-column: auto / span 1;
+
+main section {
     padding: 3%;
+
+}
+main #products {
+    grid-column: auto / span 1;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 

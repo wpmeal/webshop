@@ -36,6 +36,11 @@
       "namn": "Banan",
       "pris": 42,
       "bild": "/images/banan.jpg"
+    },
+    {
+      "namn": "Apple",
+      "pris": 23,
+      "bild": "/images/apple.jpg"
     }
   ],
   "staff": [

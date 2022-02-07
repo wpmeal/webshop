@@ -69,7 +69,7 @@ export class ProductClass {
         let output: any = []
 
         // clean the dom
-        document.querySelector("main")!.innerHTML = "";
+     //   document.querySelector("main")!.innerHTML = "";
 
         // check if we have en empty data items 
         if (Data.length == 0) {
@@ -104,13 +104,12 @@ export class ProductClass {
 
             var addToCartTag = <p><button className="addToCart" onClick={e => this.Cart.addToCart(el.namn)}    >Add to cart</button></p>;
 
-            var removeFromCartTag = <p><button className="removeFromCart" onClick={e => this.Cart.removeFromCart(el.namn)}    >Remove from cart</button></p>;
+         //   var removeFromCartTag = <p><button className="removeFromCart" onClick={e => this.Cart.removeFromCart(el.namn)}    >Remove from cart</button></p>;
 
-            var innerHtml = <article> <div><aside><img src={el.bild} /></aside>
+            var innerHtml = <article key={el.namn}> <div><aside><img src={el.bild} /></aside>
                 <p>{el.namn}</p>
                 <p>{el.pris}</p></div>
                 {addToCartTag}
-                {removeFromCartTag}
             </article>;
 
 
