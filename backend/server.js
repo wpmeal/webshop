@@ -66,6 +66,7 @@ app.get('/api/products/', (request, response) => {
             namn: element.namn,
             pris: element.pris,
             bild: element.bild,
+            qty: element.qty,
             productInVarukorg: productInVarukorg
            }
              
@@ -89,11 +90,61 @@ app.get('/api/products/', (request, response) => {
 
 });
 
+
+function isInStock(product){
+
+ let qty = product.qty
+
+   if(qty == undefined){
+
+    throw new Error("Quantity finns inte i DB!");
+  
+   }
+
+   let result = qty > 0 ? true : false 
+
+  return result
+
+}
+
+
+function detuctFrmStock(product){
+
+    let qty = product.qty
+   
+      if(qty == undefined){
+   
+       throw new Error("Quantity finns inte i DB!");
+     
+      }
+
+
+      if( qty == 0)
+      throw new Error("Out Of Stock!");
+
+
+      let result = (qty > 0) ? (--qty) : 0
+
+      const updatedProduct = database.get("products").find({namn: product.namn}).assign({
+        qty: result
+
+      }).write()
+
+      if (!updatedProduct.namn)
+      throw new Error("Kunna inte uppdatera produktet qty!");
+
+    // console.log(updatedProduct)
+   
+     return updatedProduct
+   
+   }
+
 /* 
 * Add a new product to Varukorg
 * Endpoint: /varukorg/
 * Base /api/ 
 */
+
 app.post("/api/varukorg/", (request, response) => {
 
     try {
@@ -106,13 +157,32 @@ app.post("/api/varukorg/", (request, response) => {
             // throw error if not
             throw new Error("Produktet finns inte!");
 
+        // Is in Stock
+        if(!isInStock(productInDB))  
+        throw new Error("Out Of Stock!");
+
+          // Detuct an item from qty 
+        // const updatedProduct =  detuctFrmStock(productInDB)
+
+
         // get the same product if it is already there in varukorg 
         const productInVarukorg = database.get("varukorg").find({ namn: product.namn }).value();
 
 
+        productInDB.qty2 = 1
+
+       // console.log(productInDB)
+
+
         // If not the same product is in varkorgu, then add the requested one and return them all otherwise just return existed products of varukorg
         const addToVarukorg = (!productInVarukorg) ? database.get("varukorg").push(productInDB).write() :
-            database.get("varukorg").value();
+            database.get("varukorg").find({namn: productInVarukorg.namn}).assign({
+                qty2: ++productInVarukorg.qty2
+        
+              }).write()
+
+         // add  a product to varukorg
+        // const addToVarukorg = database.get("varukorg").push(updatedProduct).write() 
 
         // If no products returned from varukorg there throw an error 
         if (!addToVarukorg)

@@ -79,7 +79,7 @@ export class ProductClass {
         // otherwise loop through our data array 
         else Data.forEach((el: any) => {
 
-            // console.log(el)
+             console.log(el)
 
 
             // set up default values for buttons: add to cart/ remove from cart
@@ -108,7 +108,9 @@ export class ProductClass {
 
             var innerHtml = <article key={el.namn}> <div><aside><img src={el.bild} /></aside>
                 <p>{el.namn}</p>
-                <p>{el.pris}</p></div>
+                <p>{el.pris}</p>
+                <p>Qty:{el.qty}</p>
+                </div>
                 {addToCartTag}
             </article>;
 

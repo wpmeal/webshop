@@ -3,44 +3,80 @@
     {
       "namn": "Apple",
       "pris": 23,
-      "bild": "/images/apple.jpg"
+      "bild": "/images/apple.jpg",
+      "qty": 0
     },
     {
       "namn": "Apelsin",
       "pris": 32,
-      "bild": "/images/apelsin.jpg"
+      "bild": "/images/apelsin.jpg",
+      "qty": 18,
+      "qty2": 1
     },
     {
       "namn": "Banan",
       "pris": 42,
-      "bild": "/images/banan.jpg"
+      "bild": "/images/banan.jpg",
+      "qty": 92,
+      "qty2": 1
     },
     {
       "namn": "Gurka",
       "pris": 66,
-      "bild": "/images/gurka.jpg"
+      "bild": "/images/gurka.jpg",
+      "qty": 68,
+      "qty2": 2
     },
     {
       "namn": "Vattenmelon",
       "pris": 45,
-      "bild": "/images/vattenmellon.jpg"
+      "bild": "/images/vattenmellon.jpg",
+      "qty": 71,
+      "qty2": 1
     },
     {
       "namn": "Potatis",
       "pris": 17,
-      "bild": "/images/potatis.jpg"
+      "bild": "/images/potatis.jpg",
+      "qty": 65,
+      "qty2": 1
     }
   ],
   "varukorg": [
     {
-      "namn": "Banan",
-      "pris": 42,
-      "bild": "/images/banan.jpg"
+      "namn": "Apelsin",
+      "pris": 32,
+      "bild": "/images/apelsin.jpg",
+      "qty": 21,
+      "qty2": 7
     },
     {
-      "namn": "Apple",
-      "pris": 23,
-      "bild": "/images/apple.jpg"
+      "namn": "Banan",
+      "pris": 42,
+      "bild": "/images/banan.jpg",
+      "qty": 92,
+      "qty2": 3
+    },
+    {
+      "namn": "Potatis",
+      "pris": 17,
+      "bild": "/images/potatis.jpg",
+      "qty": 65,
+      "qty2": 2
+    },
+    {
+      "namn": "Gurka",
+      "pris": 66,
+      "bild": "/images/gurka.jpg",
+      "qty": 68,
+      "qty2": 2
+    },
+    {
+      "namn": "Vattenmelon",
+      "pris": 45,
+      "bild": "/images/vattenmellon.jpg",
+      "qty": 71,
+      "qty2": 3
     }
   ],
   "staff": [
