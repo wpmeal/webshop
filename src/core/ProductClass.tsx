@@ -23,12 +23,16 @@ export class ProductClass {
     get all products from backend
     */
     getProdducts = async () => {
-        // setup required settings to our api call
+  /*       // setup required settings to our api call
         this.apiHandler.fetchInfo.method = "GET";
         this.apiHandler.fetchInfo.endpoint = "products";
         this.apiHandler.fetchInfo.paramName = "";
         this.apiHandler.fetchInfo.paramValue = "";
-        this.apiHandler.fetchInfo.page = "index";
+        this.apiHandler.fetchInfo.page = "index"; */
+
+        // setup required settings to our api call
+
+        this.Cart.apiHandler.setUpConnection("GET", "products") 
 
         // execute the call
         var val =  await this.apiHandler.coonectTopApi();
@@ -44,13 +48,13 @@ export class ProductClass {
 
                 // check if we have a valid data reponse witch is either an array of items or an empty array
             } else if (Array.isArray(val)) {
-
-                // check how many items are in varukorg  by filtering the array of all products that 
-                // have valid productInVarukorg property
-                const basketitems = val.filter(el => { if (parseInt(el.productInVarukorg) == 1) return el; })
+        
+              // get num of items in cart
+                 
+              const cartItems =  await this.Cart.countItems()
 
                 // update the number of varukorg items on basket icon
-                document.querySelector("#basket")?.setAttribute("value", basketitems.length.toString());
+                document.querySelector("#basket")?.setAttribute("value", cartItems.toString());
 
                 // render the product items to dom
                 return this.renderItem(val);
@@ -80,25 +84,6 @@ export class ProductClass {
         else Data.forEach((el: any) => {
 
              console.log(el)
-
-
-            // set up default values for buttons: add to cart/ remove from cart
-            var addToCartBtn = "none";
-            var removeFromCartBtn = "block";
-
-
-
-            // check if item is in varokurg or we are rendering varokurg items
-            // if yes shows a remove From Cart button otherwise hide it
-            removeFromCartBtn = el.productInVarukorg == 1 ||
-                el.productInVarukorg == undefined ?
-                "block" : "none";
-
-            // check if item is in varokurg or we are rendering varokurg items
-            // if yes shows a add to Cart button otherwise hide it
-            addToCartBtn = el.productInVarukorg == 1 ||
-                el.productInVarukorg == undefined ?
-                "none" : "block";
 
             // render the buttons
 

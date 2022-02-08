@@ -10,8 +10,8 @@
 
 // a class to handle the api
 export default class ApiHandler {
-    fetchInfo: { baseUrl: string; method: string; endpoint: string; headers: { 'Content-Type': string; 'Accept'?: string ;'Authorization'?: string}, paramName: string; paramValue: string; requestBody: any; page: string; };
-  //  authUser: AuthUser;
+    fetchInfo: { baseUrl: string; method: string; endpoint: string; headers: { 'Content-Type': string; 'Accept'?: string; 'Authorization'?: string }, paramName: string; paramValue: string; requestBody: any; page: string; };
+    //  authUser: AuthUser;
 
     // let's construct it by setting default values to our api
     constructor() {
@@ -22,7 +22,7 @@ export default class ApiHandler {
             endpoint: "products",
             headers: {
                 'Content-Type': 'application/json'
-                
+
             },
             paramName: "",
             paramValue: "",
@@ -30,7 +30,7 @@ export default class ApiHandler {
             page: ""
         };
 
-       
+
 
     }
 
@@ -51,30 +51,51 @@ export default class ApiHandler {
 
     }
 
+
+    // Setup connection properties
+    setUpConnection = (method: string, endpoint: string, paramName?: any, paramValue?: any, headers?:any, requestBody?:any ) => {
+
+        // setup required settings to our api call
+        this.fetchInfo.method = method;
+        this.fetchInfo.endpoint = endpoint;
+        this.fetchInfo.paramName = paramName;
+        this.fetchInfo.paramValue = paramValue;
+        this.fetchInfo.headers = headers ? headers : this.fetchInfo.headers 
+
+        this.fetchInfo.requestBody = requestBody
+
+    }
+
+
     // execute the connection to the api 
     coonectTopApi = async () => {
         const url = this.prepareUrl();
-      let init : {
-        "method": string,
-        "headers": {},
-        "body"?: string
-       }
-         init = {
+        let init: {
+            "method": string,
+            "headers": {},
+            "body"?: string
+        }
+        init = {
             "method": this.fetchInfo.method,
             "headers": this.fetchInfo.headers,
-             "body": ""
-   
-        
+            "body": ""
+
+
         }
         // add a body to our request only on POST method otherwise it will throw an exception
-        if (this.fetchInfo.method == "POST"){
-            init.body = JSON.stringify(this.fetchInfo.requestBody);
+        if (this.fetchInfo.method == "POST") {
+     
+          init.body = JSON.stringify(this.fetchInfo.requestBody);
 
-        }else{
-            delete init.body; 
-        }    
+        } else {
+            
+            delete init.body;
+        }
 
-        // exectute the connection to backedn api 
+
+        console.log(init)   
+
+             // exectute the connection to backedn api 
         const res = await fetch(
             url,
             init
@@ -84,9 +105,9 @@ export default class ApiHandler {
 
     }
 
-   
 
-   
+
+
 }
 
 // Initialize our class

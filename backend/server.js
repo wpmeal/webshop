@@ -59,15 +59,15 @@ app.get('/api/products/', (request, response) => {
            const getProductInVarukorg = database.get("varukorg").find({ namn: element.namn }).value();
            
            //  a new property to the json reponse that determine if product exists in varokurg or not
-           const productInVarukorg = getProductInVarukorg == undefined ? 0 : 1;
+          // const productInVarukorg = getProductInVarukorg == undefined ? 0 : 1;
 
            // add it to each product obj
            const el = {
             namn: element.namn,
             pris: element.pris,
             bild: element.bild,
-            qty: element.qty,
-            productInVarukorg: productInVarukorg
+            qty: element.qty
+         //   productInVarukorg: productInVarukorg
            }
              
             // build a new array to be used as a response json
@@ -93,40 +93,92 @@ app.get('/api/products/', (request, response) => {
 
 function isInStock(product){
 
- let qty = product.qty
+ let stock = product.stock
 
-   if(qty == undefined){
+   if(stock == undefined){
 
-    throw new Error("Quantity finns inte i DB!");
+    throw new Error("Stock quantity finns inte i DB!");
   
    }
 
-   let result = qty > 0 ? true : false 
+   let result = stock > 0 ? true : false 
 
   return result
 
 }
 
+function isQtyInStock(stock,qty){
+
+  //let stock = product.stock
+ 
+    if(stock == undefined){
+ 
+     throw new Error("Stock quantity finns inte i DB!");
+   
+    }
+ 
+    let result = (stock - qty >= 0) ? true : false 
+ 
+   return result
+ 
+ }
+
+
+app.post('/api/changeCartQty/', (request, response) => {
+ 
+  try {
+
+    // catch any error that might happen inside the try 
+          // read the request body that contains the new product value
+          const product = request.body;
+
+          console.log(product)
+          // Check if the product exist in DB
+          const productInDB = database.get("products").find({ namn: product.namn }).value();
+          if (!productInDB)
+              // throw error if not
+              throw new Error("Produktet finns inte!");
+  
+          // Is in Stock
+          if(!isQtyInStock(productInDB.stock, product.qty))  
+          throw new Error("Out Of Stock!");
+  
+          // get the same product if it is already there in varukorg 
+          const productInVarukorg = database.get("varukorg").find({ namn: product.namn }).value();
+
+           detuctFrmCart(productInVarukorg, product.qty)
+
+
+    } catch (e) {
+
+        // return anyway a valid json response with the name and message to the error
+        response.json({
+            "name": e.name,
+            "message": e.message
+        });
+    }
+
+});
 
 function detuctFrmStock(product){
 
-    let qty = product.qty
+    let stock = product.stock
    
-      if(qty == undefined){
+      if(stock == undefined){
    
        throw new Error("Quantity finns inte i DB!");
      
       }
 
 
-      if( qty == 0)
+      if( stock == 0)
       throw new Error("Out Of Stock!");
 
 
-      let result = (qty > 0) ? (--qty) : 0
+      let result = (stock > 0) ? (--stock) : 0
 
       const updatedProduct = database.get("products").find({namn: product.namn}).assign({
-        qty: result
+        stock: result
 
       }).write()
 
@@ -139,6 +191,38 @@ function detuctFrmStock(product){
    
    }
 
+
+   function detuctFrmCart(product, qty){
+
+  
+   
+      if(qty == undefined){
+   
+       throw new Error("Quantity finns inte i DB!");
+     
+      }
+
+
+      //if( stock == 0)
+    //  throw new Error("Out Of Stock!");
+
+
+     // let result = (qty > 0) ? (qty) : 0
+
+      const updatedProduct = database.get("varukorg").find({namn: product.namn}).assign({
+
+        qty: qty
+
+      }).write()
+
+      if (!updatedProduct.namn)
+      throw new Error("Kunna inte uppdatera produktet qty!");
+
+    // console.log(updatedProduct)
+   
+     return qty
+   
+   }
 /* 
 * Add a new product to Varukorg
 * Endpoint: /varukorg/
@@ -151,6 +235,7 @@ app.post("/api/varukorg/", (request, response) => {
         // read the request body that contains the new product value
         const product = request.body;
 
+        console.log(product)
         // Check if the product exist in DB
         const productInDB = database.get("products").find({ namn: product.namn }).value();
         if (!productInDB)
@@ -161,28 +246,30 @@ app.post("/api/varukorg/", (request, response) => {
         if(!isInStock(productInDB))  
         throw new Error("Out Of Stock!");
 
-          // Detuct an item from qty 
-        // const updatedProduct =  detuctFrmStock(productInDB)
-
-
         // get the same product if it is already there in varukorg 
         const productInVarukorg = database.get("varukorg").find({ namn: product.namn }).value();
 
-
-        productInDB.qty2 = 1
-
-       // console.log(productInDB)
-
-
         // If not the same product is in varkorgu, then add the requested one and return them all otherwise just return existed products of varukorg
-        const addToVarukorg = (!productInVarukorg) ? database.get("varukorg").push(productInDB).write() :
-            database.get("varukorg").find({namn: productInVarukorg.namn}).assign({
-                qty2: ++productInVarukorg.qty2
-        
-              }).write()
+        const addToVarukorg = (!productInVarukorg) ? database.get("varukorg").push({ 
 
-         // add  a product to varukorg
-        // const addToVarukorg = database.get("varukorg").push(updatedProduct).write() 
+          namn: productInDB.namn,
+
+          pris: productInDB.pris,
+
+          bild: productInDB.bild,
+
+          stock: productInDB.stock,
+
+          qty: 1
+
+          }).write()
+
+          : database.get("varukorg").find({namn: productInVarukorg.namn}).assign({
+
+                qty: ++productInVarukorg.qty
+        
+            }).write()
+
 
         // If no products returned from varukorg there throw an error 
         if (!addToVarukorg)
@@ -193,9 +280,13 @@ app.post("/api/varukorg/", (request, response) => {
 
         // catch any error and reutrn it as valid json to the client   
     } catch (e) {
+
         response.json({
+
             "name": e.name,
+
             "message": e.message
+
         });
     }
 });
@@ -210,6 +301,8 @@ app.post("/api/varukorg/", (request, response) => {
 app.delete("/api/varukorg/name/:name", (request, response) => {
     console.log(request.params.name);
     //const name = request.params.name;
+
+   // vonsole.log(request.body)
     try {
         // read the name of product that is required to be removed from the request
         const name = request.params.name;
@@ -219,7 +312,17 @@ app.delete("/api/varukorg/name/:name", (request, response) => {
         if (!productInDB)
             throw new Error("Produktet finns inte i produktersdatabas!");
 
-        // delete the product from db    
+
+        const productInCart = database.get("varukorg").find({ namn: name }).value();
+
+        if (!productInCart)
+        throw new Error("Produktet finns inte i cart!");
+      
+       // let result =  detuctFrmCart(productInCart)   
+
+
+        // delete the product from db 
+        // if(result == 0)   
         database.get("varukorg").remove({ namn: name }).write();
 
         // return a json response with all items of varukorg
@@ -241,22 +344,21 @@ app.delete("/api/varukorg/name/:name", (request, response) => {
 * Base /api/ 
 */
 app.get("/api/varukorg/",  (request, response) => {
+
     try {
 
         ProductsInVarukorg = database.get("varukorg").value();
 
-        // check if no items in varukorg
-       // if (ProductsInVarukorg.length == 0)
-            // throw an empty Varukorg message 
-      //      throw new Error("Varukorg är tom!");
-
-        // otherwise return all items to the client
         response.json(ProductsInVarukorg);
 
     } catch (e) {
+
         response.json({
+
             "name": e.name,
+
             "message": e.message
+
         });
     }
 });
@@ -367,6 +469,49 @@ app.post("/api/login/", async (request, response) => {
   
   
 });
+
+
+/* 
+* Count items in cart
+* Endpoint: /products/
+* Base /api/ 
+*/
+app.get('/api/countCartItems/', (request, response) => {
+
+  // begin a try so the app doesn't crash when error happens and still response with valid json
+  try {
+      // get products array from db 
+      const items = database.get("varukorg").value();
+      //console.log(products);
+
+      // throw an error when it's not there!
+     // if (!items)
+      //    throw new Error("Kunna inte hämta produkter!");
+
+      let count = 0
+      // sum qty of varukorg 
+      items.forEach(element => {
+
+      count += element.qty  
+      
+      });        
+ 
+      response.json({"cartItemsNum" :count });
+
+      // catch any error that might happen inside the try 
+  } catch (e) {
+
+      // return anyway a valid json response with the name and message to the error
+      response.json({
+
+          "name": e.name,
+
+          "message": e.message
+      });
+  }
+
+});
+
 
 // start a new server on port:8000
 app.listen(8000, () => {

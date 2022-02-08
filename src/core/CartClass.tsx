@@ -11,21 +11,19 @@ export class CartClass {
 
     }
 
+
+
+   
     // add an item to cart 
     // parameter: an item name
     addToCart = (itemName = '') => {
 
-        // setup required settings to our api call
-        this.apiHandler.fetchInfo.method = "POST";
-        this.apiHandler.fetchInfo.endpoint = "varukorg";
-        this.apiHandler.fetchInfo.paramName = "";
-        this.apiHandler.fetchInfo.paramValue = "";
-
-        // an item name to be added varukorg
-        this.apiHandler.fetchInfo.requestBody = {
+      let reqBody = {
             "namn": itemName
         }
 
+        this.apiHandler.setUpConnection("POST", "varukorg", null, null, null, reqBody) 
+        
         // execute the call
         var res = this.apiHandler.coonectTopApi();
 
@@ -54,15 +52,60 @@ export class CartClass {
         });
     }
 
+
+        // change itemsqty
+    // parameter: an item name
+    changeQty = (itemName = '', qty = 0) => {
+
+        let reqBody = {
+              "namn": itemName,
+              "qty": qty
+          }
+  
+          this.apiHandler.setUpConnection("POST", "changeCartQty", null, null, null, reqBody) 
+          
+          // execute the call
+          var res = this.apiHandler.coonectTopApi();
+  
+          // handle the promsie of the response
+          res.then((val) => {  // if the promise is fullfilled 
+  
+              console.log(val); // log the reponse data  
+  
+              // update the basked icons with items number
+              document.querySelector("#basket")?.setAttribute("value", val.length);
+  
+              // if error get received, display it to client
+              if (val.name || val.message) {
+                  alert(val.message);
+  
+                  // if we have a valid response with the item added then update the html buttons
+              } else if (val.length > 0) {
+  
+                  // hide add to cart button
+                  document.querySelector("#" + itemName)?.querySelector(".addToCart")?.setAttribute("style", "block");
+  
+                  // show remove from cart button  
+                  document.querySelector("#" + itemName)?.querySelector(".removeFromCart")?.setAttribute("style", "block");
+              }
+  
+          });
+      }
+
     // a method to remove item form cart
     // parameters: itemName: an item name, page: page name.
     removeFromCart = (itemName = '', page = '') => {
 
-        // setup required settings to our api call
+/*         // setup required settings to our api call
         this.apiHandler.fetchInfo.method = "DELETE";
         this.apiHandler.fetchInfo.endpoint = "varukorg";
         this.apiHandler.fetchInfo.paramName = "name";
-        this.apiHandler.fetchInfo.paramValue = itemName;
+        this.apiHandler.fetchInfo.paramValue = itemName; */
+
+        // setup required settings to our api call
+
+        this.apiHandler.setUpConnection("DELETE", "varukorg", "name", itemName) 
+
 
         // execute the call
         var res = this.apiHandler.coonectTopApi();
@@ -109,7 +152,7 @@ export class CartClass {
     Get items of varukorg from backend
    */
     getVarokurgItems = async () => {
-        // setup required settings to our api call
+ /*        // setup required settings to our api call
         this.apiHandler.fetchInfo.method = "GET";
         this.apiHandler.fetchInfo.endpoint = "varukorg";
         this.apiHandler.fetchInfo.paramName = "";
@@ -118,10 +161,15 @@ export class CartClass {
 
         // const token = AuthUser.getToken()
 
-        this.apiHandler.fetchInfo.headers = {
+     
+ */   
+      const header = {
             //    'Authorization': "Bearer "+token,
             'Content-Type': 'application/json'
         };
+
+        // setup required settings to our api call
+        this.apiHandler.setUpConnection("GET", "varukorg", null, null, header) 
 
         // execute the call
         var val = await this.apiHandler.coonectTopApi();
@@ -192,11 +240,13 @@ export class CartClass {
 
             var removeFromCartTag = <p><button className="removeFromCart" onClick={e => this.removeFromCart(el.namn)}    >Remove from cart</button></p>;
 
-            var innerHtml = <article> <div><aside><img src={el.bild} /></aside>
+            var innerHtml = <article><p><img width="50px" height="50px" src={el.bild} /></p>
                 <p>{el.namn}</p>
-                <p>{el.pris}</p></div>
-                {addToCartTag}
-                {removeFromCartTag}
+                <p>{el.pris}</p>
+                <p><input name="changeItemQty" onBlur={e => this.changeItemQty(e, el.namn, e.target.value)} />{el.qty}</p>
+
+
+                <p>{removeFromCartTag}</p>
             </article>;
 
 
@@ -207,6 +257,43 @@ export class CartClass {
         console.log(output)
 
         return output
+    }
+
+    changeItemQty = async (e:any, namn: any, qty: any) => {
+
+        e.preventDefault()
+
+
+        this.changeQty(namn, qty)
+
+       // this.removeFromCart(namn, qty)
+    }
+
+    // Count items in cart
+    countItems = async () => {
+
+/*         // setup required settings to our api call
+        this.apiHandler.fetchInfo.method = "GET";
+        this.apiHandler.fetchInfo.endpoint = "countCartItems";
+        this.apiHandler.fetchInfo.paramName = "";
+        this.apiHandler.fetchInfo.paramValue = "";
+
+        // const token = AuthUser.getToken() */
+
+        const header = {
+            //    'Authorization': "Bearer "+token,
+            'Content-Type': 'application/json'
+        };
+
+        // setup required settings to our api call
+
+        this.apiHandler.setUpConnection("GET", "countCartItems", null, null, header) 
+
+        // execute the call
+        var result = await this.apiHandler.coonectTopApi();
+
+        return result.cartItemsNum
+
     }
 
 

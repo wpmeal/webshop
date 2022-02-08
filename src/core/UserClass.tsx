@@ -64,13 +64,14 @@ export default class UserClass {
     };
 
     // set connections settings 
-    this.initConnection.fetchInfo.method = 'POST';
-    this.initConnection.fetchInfo.endpoint = 'login';
-    this.initConnection.fetchInfo.requestBody = credentials;
-    this.initConnection.fetchInfo.headers = {
+  //  this.initConnection.fetchInfo.method = 'POST';
+    //this.initConnection.fetchInfo.endpoint = 'login';
+    const headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     }
+ 
+    this.initConnection.setUpConnection('POST','login', null, null, headers,  credentials)
 
     // execute connection to backend  
     const data = await this.initConnection.coonectTopApi()
