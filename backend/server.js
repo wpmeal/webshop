@@ -132,7 +132,16 @@ app.post('/api/changeCartQty/', (request, response) => {
           // read the request body that contains the new product value
           const product = request.body;
 
-          console.log(product)
+          if(product.qty <=0){
+            throw new Error("Invalid Qty value!");
+ 
+          }
+
+          if(!product.namn){
+            throw new Error("Invalid product name!"); 
+          }
+
+          //console.log(product)
           // Check if the product exist in DB
           const productInDB = database.get("products").find({ namn: product.namn }).value();
           if (!productInDB)
@@ -143,10 +152,12 @@ app.post('/api/changeCartQty/', (request, response) => {
           if(!isQtyInStock(productInDB.stock, product.qty))  
           throw new Error("Out Of Stock!");
   
-          // get the same product if it is already there in varukorg 
+          // get the  product from varukorg 
           const productInVarukorg = database.get("varukorg").find({ namn: product.namn }).value();
 
-           detuctFrmCart(productInVarukorg, product.qty)
+         const updatedProduct =  changeQtyCart(productInVarukorg, product.qty)
+
+         response.json(updatedProduct);
 
 
     } catch (e) {
@@ -192,22 +203,13 @@ function detuctFrmStock(product){
    }
 
 
-   function detuctFrmCart(product, qty){
+   function changeQtyCart(product, qty){
 
-  
+      if(!product){
    
-      if(qty == undefined){
-   
-       throw new Error("Quantity finns inte i DB!");
+       throw new Error("could not change qty!");
      
       }
-
-
-      //if( stock == 0)
-    //  throw new Error("Out Of Stock!");
-
-
-     // let result = (qty > 0) ? (qty) : 0
 
       const updatedProduct = database.get("varukorg").find({namn: product.namn}).assign({
 
@@ -215,12 +217,13 @@ function detuctFrmStock(product){
 
       }).write()
 
-      if (!updatedProduct.namn)
+      if (!updatedProduct.namn){
+
       throw new Error("Kunna inte uppdatera produktet qty!");
 
-    // console.log(updatedProduct)
-   
-     return qty
+      }
+ 
+     return updatedProduct
    
    }
 /* 
@@ -318,7 +321,7 @@ app.delete("/api/varukorg/name/:name", (request, response) => {
         if (!productInCart)
         throw new Error("Produktet finns inte i cart!");
       
-       // let result =  detuctFrmCart(productInCart)   
+       // let result =  changeQtyCart(productInCart)   
 
 
         // delete the product from db 

@@ -55,11 +55,12 @@ export class ProductClass {
 
                 // update the number of varukorg items on basket icon
                 document.querySelector("#basket")?.setAttribute("value", cartItems.toString());
+             
 
                 // render the product items to dom
-                return this.renderItem(val);
+              //  return this.renderItem(val);
 
-             //return val
+             return val
 
             }
 

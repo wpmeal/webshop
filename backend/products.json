@@ -37,15 +37,7 @@
       "stock": 80
     }
   ],
-  "varukorg": [
-    {
-      "namn": "Apple",
-      "pris": 23,
-      "bild": "/images/apple.jpg",
-      "stock": 23,
-      "qty": "0"
-    }
-  ],
+  "varukorg": [],
   "staff": [
     {
       "username": "Ada",

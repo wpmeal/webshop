@@ -8,9 +8,9 @@ function Products() {
 
   const [name, setName] = useState('')
 
-  const [items, setItems] = useState([])
+  const [items, setItems]: Array<any> = useState([])
 
-  const [products, setProducts] = useState([])
+  const [products, setProducts]: Array<any> = useState([])
 
 
 
@@ -23,7 +23,7 @@ function Products() {
 
   async function initProductsClass() {
 
-    let products  = await productClass.getProdducts();
+    let products = await productClass.getProdducts();
 
     setProducts(products)
 
@@ -41,52 +41,59 @@ function Products() {
     return name.length >= 0;
   }
 
- async function handleSubmit(event:any) {
+  async function handleSubmit(event: any) {
 
-  console.log(products)
+    console.log(products)
 
-  event.preventDefault()
-  var myPattern = new RegExp('(\\w*'+name+'\\w*)','gi');
+    event.preventDefault()
+    var myPattern = new RegExp('(\\w*' + name + '\\w*)', 'gi');
 
- let filteredItems = products.filter( (el:any) => {
+    let filteredItems = products.filter((el: any) => {
 
-    let result = el.key.match(myPattern);
+      let result = el.namn.match(myPattern);
 
-    return result
-  
-  })
-  setItems(filteredItems)
- }
- 
+      return result
+
+    })
+    setItems(filteredItems)
+  }
+
 
   return (
     <>
-    <section>
-          <Form onSubmit={handleSubmit}>
-        <Form.Group  controlId="filter">
-          <Form.Control
-            autoFocus
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Product Name"
-          />
-        </Form.Group>
-  
-        <Button  size="lg" type="submit" disabled={!validateForm()}>
-          Filter By Name
-        </Button>
-      </Form>
+      <section>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="filter">
+            <Form.Control
+              autoFocus
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Product Name"
+            />
+          </Form.Group>
+
+          <Button size="lg" type="submit" disabled={!validateForm()}>
+            Filter By Name
+          </Button>
+        </Form>
       </section>
       <b>{error}</b>
       <section id="products">
-     {items.length > 0 && items.map((el: any) => (
-      el
-    )
-    )
+        {items.length > 0 && items.map((el: any) => (
+          <article key={el.namn}> <div><aside><img src={el.bild} /></aside>
+            <p>{el.namn}</p>
+            <p>{el.pris}</p>
+            <p>Qty:{el.qty}</p>
+          </div>
+            <p><button className="addToCart" onClick={e => productClass.Cart.addToCart(el.namn)}    >Add to cart</button></p>
+          </article>
 
-    }
-    </section>
+        )
+        )
+
+        }
+      </section>
     </>
   )
 

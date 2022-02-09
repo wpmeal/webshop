@@ -1,15 +1,26 @@
-import React from 'react';
+import { constants } from 'os';
+import React, {useState} from 'react';
 import ApiHandler from './ApiHandler';
 
 export class CartClass {
 
 
     apiHandler: ApiHandler;
+   // items :Array<any> | undefined
 
     constructor() {
-        this.apiHandler = new ApiHandler()
+
+       this.apiHandler = new ApiHandler()
+        
+       //const  [this.items, setItems]   = useState([])
+
+     //  this.state =  [this.items, setItems]
+       
+
 
     }
+
+
 
 
 
@@ -28,12 +39,15 @@ export class CartClass {
         var res = this.apiHandler.coonectTopApi();
 
         // handle the promsie of the response
-        res.then((val) => {  // if the promise is fullfilled 
+        res.then(async (val) => {  // if the promise is fullfilled 
 
             console.log(val); // log the reponse data  
 
             // update the basked icons with items number
-            document.querySelector("#basket")?.setAttribute("value", val.length);
+
+            const cartItems =  await this.countItems()   
+
+            document.querySelector("#basket")?.setAttribute("value", cartItems.toString());
 
             // if error get received, display it to client
             if (val.name || val.message) {
@@ -55,7 +69,7 @@ export class CartClass {
 
         // change itemsqty
     // parameter: an item name
-    changeQty = (itemName = '', qty = 0) => {
+    changeQty = async (itemName = '', qty = 0) => {
 
         let reqBody = {
               "namn": itemName,
@@ -65,86 +79,53 @@ export class CartClass {
           this.apiHandler.setUpConnection("POST", "changeCartQty", null, null, null, reqBody) 
           
           // execute the call
-          var res = this.apiHandler.coonectTopApi();
+          var val = await this.apiHandler.coonectTopApi();
   
           // handle the promsie of the response
-          res.then((val) => {  // if the promise is fullfilled 
+         // res.then((val) => {  // if the promise is fullfilled 
   
               console.log(val); // log the reponse data  
   
-              // update the basked icons with items number
-              document.querySelector("#basket")?.setAttribute("value", val.length);
   
               // if error get received, display it to client
               if (val.name || val.message) {
                   alert(val.message);
   
                   // if we have a valid response with the item added then update the html buttons
-              } else if (val.length > 0) {
+              } else if (val) {
   
-                  // hide add to cart button
-                  document.querySelector("#" + itemName)?.querySelector(".addToCart")?.setAttribute("style", "block");
-  
-                  // show remove from cart button  
-                  document.querySelector("#" + itemName)?.querySelector(".removeFromCart")?.setAttribute("style", "block");
+
+                console.log(val)
+                 return val
+                // update total price
+      
               }
   
-          });
+        //  });
       }
 
     // a method to remove item form cart
     // parameters: itemName: an item name, page: page name.
-    removeFromCart = (itemName = '', page = '') => {
+    removeFromCart = async (itemName = '', page = '') =>  {
 
-/*         // setup required settings to our api call
-        this.apiHandler.fetchInfo.method = "DELETE";
-        this.apiHandler.fetchInfo.endpoint = "varukorg";
-        this.apiHandler.fetchInfo.paramName = "name";
-        this.apiHandler.fetchInfo.paramValue = itemName; */
-
-        // setup required settings to our api call
+        //let items:Array<any> = []
 
         this.apiHandler.setUpConnection("DELETE", "varukorg", "name", itemName) 
 
-
         // execute the call
-        var res = this.apiHandler.coonectTopApi();
-
-        // handle the promsie of the response
-        res.then((val) => {
-
-            //log the response
-            console.log(val);
+        var result = await this.apiHandler.coonectTopApi();
 
             // if error get received, display it to client
-            if (val.name || val.message) {
-                alert(val.message);
+            if (result.name || result.message) {
+              
+                alert(result.message);
 
                 // check if we have a valid data reponse witch is either an array of items or an empty array
-            } else if (Array.isArray(val)) {
+            } else if (Array.isArray(result)) {
 
-                // if we remove items on index page update the display style of add/remove from cart plus basket icon buttons accordingly
-                if (page == "index") {
-                    //   if(document.querySelector("#" + itemName))
-                    //document.querySelector("#" + itemName)!.querySelector(".addToCart")!.style.display = "block";
-                    document.querySelector("#" + itemName)?.querySelector(".addToCart")?.setAttribute("style", "block");
+                return result
 
-                    document.querySelector("#" + itemName)?.querySelector(".removeFromCart")?.setAttribute("style", "none");
-                    document.querySelector("#basket")?.setAttribute("value", val.length.toString());
-
-                    // if we are removing on varokurg page then simply delete the article html obj from dom
-                } else if (page == "shopping-cart") {
-
-                    document.querySelector("#" + itemName)?.remove();
-
-                    if (val.length == 0) { // if we removed the last item in varokurg
-                        //  document.querySelector("main")?.innerHTML = "Varukorg är tom!";
-                        document.querySelector("main")!.innerHTML = "Varukorg är tom!";
-                    }
-                }
             }
-
-        });
     }
 
 
@@ -189,8 +170,10 @@ export class CartClass {
             // render the product items to dom
 
             console.log(val)
+         
+            return val
 
-            return this.renderItem(val);
+            //return this.renderItem(val);
         }
         // });
     }
@@ -200,18 +183,18 @@ export class CartClass {
 
     renderItem = async (Data: any = [], refresh = true) => {
 
-        let output: any = []
+/*         let output: any = []
 
         // clean the dom
-        document.querySelector("main")!.innerHTML = "";
-
+      //
         // check if we have en empty data items 
-        if (Data.length == 0) {
-            document.querySelector("main")!.innerHTML = '<b>No Products Found!</b>';
-        }
+       // if (Data.length == 0) {
+       ////     document.querySelector("main")!.innerHTML = '<b>No Products Found!</b>';
+       // }
 
         // otherwise loop through our data array 
-        else Data.forEach((el: any) => {
+       // else
+         Data.forEach((el: any) => {
 
             // console.log(el)
 
@@ -232,39 +215,32 @@ export class CartClass {
             // if yes shows a add to Cart button otherwise hide it
             addToCartBtn = el.productInVarukorg == 1 ||
                 el.productInVarukorg == undefined ?
-                "none" : "block";
+                "none" : "block"; 
 
             // render the buttons
 
-            var addToCartTag = <p><button className="addToCart" onClick={e => this.addToCart(el.namn)}    >Add to cart</button></p>;
+            //var addToCartTag = <p><button className="addToCart" onClick={e => this.addToCart(el.namn)}    >Add to cart</button></p>;
 
-            var removeFromCartTag = <p><button className="removeFromCart" onClick={e => this.removeFromCart(el.namn)}    >Remove from cart</button></p>;
+       
 
-            var innerHtml = <article><p><img width="50px" height="50px" src={el.bild} /></p>
-                <p>{el.namn}</p>
-                <p>{el.pris}</p>
-                <p><input name="changeItemQty" onBlur={e => this.changeItemQty(e, el.namn, e.target.value)} />{el.qty}</p>
-
-
-                <p>{removeFromCartTag}</p>
-            </article>;
-
-
-            output.push(innerHtml)
+            //output.push(innerHtml)
         })
 
 
-        console.log(output)
+      //  console.log(output)
 
-        return output
+        return output */
     }
 
     changeItemQty = async (e:any, namn: any, qty: any) => {
 
         e.preventDefault()
 
+        if(qty > 0){    
 
-        this.changeQty(namn, qty)
+       return await this.changeQty(namn, qty)
+
+        }
 
        // this.removeFromCart(namn, qty)
     }
