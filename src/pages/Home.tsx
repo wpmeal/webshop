@@ -8,9 +8,10 @@ export default function Home() {
     return (
 <div className="wrapper">
             <header>
+                <h2> Home  </h2>
+
                 <Link to="cart"><i id="basket" className="fa badge" data-value="0">&#xf07a;</i></Link>
                 <Login />
-
             </header>
             <main>
                 <Products />

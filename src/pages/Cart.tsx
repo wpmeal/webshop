@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CartItems from '../components/CartItems';
+import Login from '../components/Login';
 
 
 export default function Cart() {
@@ -11,6 +12,8 @@ export default function Cart() {
              <Link to="/">Home</Link>
 
             <h2> Varukorg Items  </h2>
+            <Login />
+
         </header>
         <main id="shopping-cart">
             

@@ -18,15 +18,18 @@ body {
 }
 
 header {
-    grid-column: auto / span 1;
    /* padding: 3%; */
     background: #adcee6;
-    
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 1%;
+
 }
+/*
 .shopping-cart header{
     display: inline-flex;
 
-}
+} */
 
 main section {
     padding: 3%;
@@ -58,7 +61,6 @@ p{
     padding:3% 10% 3% 30%;
 }
 header h2{
-padding: 0 10% 0 30%;
 margin: 0;
 }
 #shopping-cart > article {
@@ -98,3 +100,21 @@ margin: 0;
     opacity:0.9; 
     }
   
+
+    .Login > form {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .Login > form > *{
+        grid-column: auto /span 1;
+        display: inline-flex;
+        
+
+    }
+
+    header > * {
+    }
+    .userInfo  > * {
+        display: block;
+    }

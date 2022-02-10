@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import UserClass from "../core/UserClass";
@@ -8,8 +8,11 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const [error, setError] = useState("");
+  const [loggedInUser, setLoggedInUser] = useState({username: null, address:null });
+  const [displayForm, setDisplayForm] = useState(false);
 
 
+  
 
   const userClass = new UserClass()
   
@@ -26,16 +29,20 @@ export default function Login() {
 
   if(!result.error){
 
-    //resultDom.innerHTML = '';
-
-
-    const token = result
-
+    console.log(result)
+  
     // save token received from backed 
-    await userClass.saveToken(token)
+    await userClass.saveToken(result.token)
+
+     setDisplayForm(false)
+
+     setLoggedInUser({
+      username: result.username,
+      address: result.address
+    })
 
 
-   // location.href = "verifyBiljett.html";
+
 
  
 }else{ // otherwise error occurs, display it!!
@@ -44,12 +51,43 @@ export default function Login() {
 
 } 
   }
+  const getLoggedInUser = async () => {
+
+    try{
+
+   const user:any = await userClass.isLoggedIn()
+
+   //console.log(user)
+
+   setDisplayForm(false)
+
+   
+   setLoggedInUser(user)
+
+
+    }catch(e:any){
+
+      console.log(e.message)
+      setDisplayForm(true)
+
+
+    }
+  }
+
+  useEffect(  () => {
+
+    getLoggedInUser()
+
+  }, [])
 
   return (
-    <div className="Login">
-      <Form onSubmit={handleSubmit}>
+    <div className="Login">{displayForm}
+  {loggedInUser.username &&
+   <div className="userInfo"><label><a href="#">{loggedInUser.username}</a></label><div><label>Address:&nbsp;</label><label>{loggedInUser.address}</label></div></div>}
+
+   {displayForm && <Form onSubmit={handleSubmit}>
         <Form.Group  controlId="email">
-          <Form.Label>Email</Form.Label>
+          <Form.Label>Email:&nbsp;</Form.Label>
           <Form.Control
             autoFocus
             type="text"
@@ -58,7 +96,7 @@ export default function Login() {
           />
         </Form.Group>
         <Form.Group controlId="password">
-          <Form.Label>Password</Form.Label>
+          <Form.Label>Password:&nbsp;</Form.Label>
           <Form.Control
             type="password"
             value={password}
@@ -68,9 +106,16 @@ export default function Login() {
         <Button  size="lg" type="submit" disabled={!validateForm()}>
           Login
         </Button>
-      </Form>
+        <b>{error}</b>
 
-      <b>{error}</b>
-    </div>
+      </Form>
+  }
+
+      
+  
+
+</div>
+
+
   );
 }

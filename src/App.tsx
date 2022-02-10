@@ -7,12 +7,12 @@ import Products from './components/Products';
 import './style.css'
 import Home from './pages/Home';
 import Cart from './pages/Cart';
+import Login from './components/Login';
 
 function App() {
 
 
 return (<>
-
 
 
 <Routes>
