@@ -37,7 +37,29 @@
       "stock": 80
     }
   ],
-  "varukorg": [],
+  "varukorg": [
+    {
+      "namn": "Apple",
+      "pris": 23,
+      "bild": "/images/apple.jpg",
+      "stock": 23,
+      "qty": 1
+    },
+    {
+      "namn": "Apelsin",
+      "pris": 32,
+      "bild": "/images/apelsin.jpg",
+      "stock": 45,
+      "qty": "5"
+    },
+    {
+      "namn": "Banan",
+      "pris": 42,
+      "bild": "/images/banan.jpg",
+      "stock": 67,
+      "qty": 1
+    }
+  ],
   "staff": [
     {
       "username": "Ada",

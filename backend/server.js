@@ -453,7 +453,22 @@ app.post("/api/login/", async (request, response) => {
         expiresIn: 6000 //Går ut om 10 minuter 
       });
       // reassign the token of signed user 
-      result = token;
+      //credentialsDB.token = token
+
+     result = {
+        username: credentialsDB.username,
+        address: credentialsDB.address,
+        token: token
+
+      }
+
+
+      //forbid password from response
+      //credentialsDB.password = ''
+
+     // console.log(credentialsDB)
+
+    //  result = credentialsDB;
   
       // catch any throwable error from CheckCredentials or jwt.sign 
     } catch (e) {
@@ -512,6 +527,49 @@ app.get('/api/countCartItems/', (request, response) => {
           "message": e.message
       });
   }
+
+});
+
+ // a CTL to logged in user 
+ app.get('/api/loggedInUser/token/:token', user, (request, response) => {
+
+  let result = null;
+
+  try {
+
+    let user_id = request.userId
+
+    result = user_id
+
+
+    const user = database.get('staff')
+    .find({ id: user_id })
+    .value();
+  
+  if (!user) {
+    throw new Error("could not find the user!");
+  
+  }
+
+  result = {
+    "username": user.username,
+    "address": user.address
+  };  
+
+    // catch any throwable error 
+  } catch (e) {
+    // log error to server  
+    console.log(e.message);
+
+    // assign catched error as json obj
+    result = {
+      "error": e.name,
+      "message": e.message
+    };
+
+  }
+  // return result
+  response.json(result);
 
 });
 
