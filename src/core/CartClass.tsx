@@ -34,6 +34,7 @@ export class CartClass {
         }
 
         this.apiHandler.setUpConnection("POST", "varukorg", null, null, null, reqBody) 
+        const cartIcon:any = document.querySelector("#basket")
         
         // execute the call
         var res = this.apiHandler.coonectTopApi();
@@ -43,24 +44,28 @@ export class CartClass {
 
             console.log(val); // log the reponse data  
 
-            // update the basked icons with items number
-
-            const cartItems =  await this.countItems()   
-
-            document.querySelector("#basket")?.setAttribute("value", cartItems.toString());
+     
 
             // if error get received, display it to client
             if (val.name || val.message) {
                 alert(val.message);
 
                 // if we have a valid response with the item added then update the html buttons
-            } else if (val.length > 0) {
+            } else {
+
+                       // update the basked icons with items number
+
+            const cartItems =  await this.countItems()   
+
+            cartIcon.setAttribute("value", cartItems?.toString());
+
+            
 
                 // hide add to cart button
-                document.querySelector("#" + itemName)?.querySelector(".addToCart")?.setAttribute("style", "block");
+               // document.querySelector("#" + itemName)?.querySelector(".addToCart")?.setAttribute("style", "block");
 
                 // show remove from cart button  
-                document.querySelector("#" + itemName)?.querySelector(".removeFromCart")?.setAttribute("style", "block");
+              //  document.querySelector("#" + itemName)?.querySelector(".removeFromCart")?.setAttribute("style", "block");
             }
 
         });

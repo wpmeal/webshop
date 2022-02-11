@@ -66,7 +66,7 @@ app.get('/api/products/', (request, response) => {
             namn: element.namn,
             pris: element.pris,
             bild: element.bild,
-            qty: element.qty
+            stock: element.stock
          //   productInVarukorg: productInVarukorg
            }
              
@@ -279,6 +279,8 @@ app.post("/api/varukorg/", (request, response) => {
             throw new Error("Kunna inte lägga produktet till varukorg!");
 
         // retrun varukorg items as a valid json response    
+        response.statusCode = 201
+
         response.json(addToVarukorg);
 
         // catch any error and reutrn it as valid json to the client   
@@ -510,7 +512,7 @@ app.get('/api/countCartItems/', (request, response) => {
       // sum qty of varukorg 
       items.forEach(element => {
 
-      count += element.qty  
+      count += parseInt(element.qty)  
       
       });        
  

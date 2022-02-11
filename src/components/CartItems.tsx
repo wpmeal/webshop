@@ -90,7 +90,7 @@ export default function CartItems() {
         <p>{el.namn}</p>
         <p>{el.pris}</p>
 
-        <p><input name="changeItemQty" onBlur={e => changeItemQty(e, el.namn)} defaultValue={el.qty} /></p>
+        <p><input name="changeItemQty" data-testid="qty" onBlur={e => changeItemQty(e, el.namn)} defaultValue={el.qty} /></p>
 
 
         <p><button className="removeFromCart" onClick={e => removeFrmCart(e, el.namn)}    >Remove from cart</button></p>

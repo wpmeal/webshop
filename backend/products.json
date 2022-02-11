@@ -43,21 +43,35 @@
       "pris": 23,
       "bild": "/images/apple.jpg",
       "stock": 23,
-      "qty": 1
+      "qty": "15"
     },
     {
       "namn": "Apelsin",
       "pris": 32,
       "bild": "/images/apelsin.jpg",
       "stock": 45,
-      "qty": "5"
+      "qty": 17
     },
     {
       "namn": "Banan",
       "pris": 42,
       "bild": "/images/banan.jpg",
       "stock": 67,
-      "qty": 1
+      "qty": 13
+    },
+    {
+      "namn": "Potatis",
+      "pris": 17,
+      "bild": "/images/potatis.jpg",
+      "stock": 80,
+      "qty": 2
+    },
+    {
+      "namn": "Vattenmelon",
+      "pris": 45,
+      "bild": "/images/vattenmellon.jpg",
+      "stock": 60,
+      "qty": 6
     }
   ],
   "staff": [

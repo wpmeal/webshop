@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import ApiHandler from '../core/ApiHandler'
 import ProductClass from '../core/ProductClass';
 
@@ -62,6 +63,8 @@ function Products() {
   return (
     <>
       <section>
+      <Link to="cart"><i id="basket" data-testid="basket" className="fa badge" data-value="0">&#xf07a;</i></Link>
+      <p  data-testid="basketNum"></p>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="filter">
             <Form.Control
@@ -81,12 +84,12 @@ function Products() {
       <b>{error}</b>
       <section id="products">
         {items.length > 0 && items.map((el: any) => (
-          <article key={el.namn}> <div><aside><img src={el.bild} /></aside>
+          <article key={el.namn}> <div><aside><img src={el.bild} alt="product image"/></aside>
             <p>{el.namn}</p>
             <p>{el.pris}</p>
-            <p>Qty:{el.qty}</p>
+            <p>Qty:{el.stock}</p>
           </div>
-            <p><button className="addToCart" onClick={e => productClass.Cart.addToCart(el.namn)}    >Add to cart</button></p>
+            <p><button className="addToCart" onClick={e => productClass.Cart.addToCart(el.namn)}  data-testid="AddToCart"  >Add to cart</button></p>
           </article>
 
         )

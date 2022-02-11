@@ -31,7 +31,7 @@ export default function Login() {
 
     console.log(result)
   
-    // save token received from backed 
+    // save token received from backend 
     await userClass.saveToken(result.token)
 
      setDisplayForm(false)
@@ -68,6 +68,7 @@ export default function Login() {
     }catch(e:any){
 
       console.log(e.message)
+
       setDisplayForm(true)
 
 
@@ -83,7 +84,7 @@ export default function Login() {
   return (
     <div className="Login">{displayForm}
   {loggedInUser.username &&
-   <div className="userInfo"><label><a href="#">{loggedInUser.username}</a></label><div><label>Address:&nbsp;</label><label>{loggedInUser.address}</label></div></div>}
+   <div className="userInfo"><label><a data-testid="username" href="#">{loggedInUser.username}</a></label><div><label>Address:&nbsp;</label><label>{loggedInUser.address}</label></div></div>}
 
    {displayForm && <Form onSubmit={handleSubmit}>
         <Form.Group  controlId="email">
@@ -103,7 +104,7 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Button  size="lg" type="submit" disabled={!validateForm()}>
+        <Button data-testid="loginBtn" size="lg" type="submit" disabled={!validateForm()}>
           Login
         </Button>
         <b>{error}</b>

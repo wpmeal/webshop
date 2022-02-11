@@ -93,7 +93,7 @@ export default class ApiHandler {
         }
 
 
-        console.log(init)   
+      //  console.log(init)   
 
              // exectute the connection to backedn api 
         const res = await fetch(
