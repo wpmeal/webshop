@@ -43,21 +43,21 @@
       "pris": 23,
       "bild": "/images/apple.jpg",
       "stock": 23,
-      "qty": "15"
+      "qty": 22
     },
     {
       "namn": "Apelsin",
       "pris": 32,
       "bild": "/images/apelsin.jpg",
       "stock": 45,
-      "qty": 17
+      "qty": 32
     },
     {
       "namn": "Banan",
       "pris": 42,
       "bild": "/images/banan.jpg",
       "stock": 67,
-      "qty": 13
+      "qty": 21
     },
     {
       "namn": "Potatis",

@@ -34,7 +34,7 @@ export class ProductClass {
 
         this.Cart.apiHandler.setUpConnection("GET", "products") 
 
-    //    const basketIcon:any =   document.querySelector("#basket")
+        const basketIcon:any =   document.querySelector("#lblCartCount")
 
         // execute the call
         var val =  await this.apiHandler.coonectTopApi();
@@ -53,12 +53,14 @@ export class ProductClass {
         
               // get num of items in cart
                  
-              const cartItems =  await this.Cart.countItems()
+            //  const cartItems =  await this.Cart.countItems()
 
-              console.log(cartItems)
+           //   console.log(cartItems)
 
                 // update the number of varukorg items on basket icon
-                document.querySelector("#basket")?.setAttribute("value", cartItems?.toString());
+           //     basketIcon.setAttribute("data-value", cartItems?.toString())
+          //      basketIcon.innerHTML = cartItems?.toString()
+               // document.querySelector("#basket")?.setAttribute("value", cartItems?.toString());
 
                 // render the product items to dom
               //  return this.renderItem(val);

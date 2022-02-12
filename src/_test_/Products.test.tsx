@@ -7,7 +7,7 @@ import Home from '../pages/Home';
 
 describe('Test Product Component', () => {
 
-    const res = [
+    const res:Array<any> = [
         {
             namn: "Apple",
             pris: 23,
@@ -22,15 +22,27 @@ describe('Test Product Component', () => {
         }
     ]
 
+    //an arbitrary value  for the second fetch response mock that match cart items calucation procedure
+    const res2 = "57"
+
     beforeEach(async () => {
 
         // fetch.mockImplementation(() => Promise.resolve(res))
 
-        const mockValue: any = {
+        const mockValueOne: any = {
             json: jest.fn().mockResolvedValue(res)
         }
 
-        jest.spyOn(global, 'fetch').mockResolvedValue(mockValue)
+        const mockValueTwo: any = {
+            json: jest.fn().mockResolvedValue({cartItemsNum:res2})
+        }
+
+
+      const spy =   jest.spyOn(global, 'fetch').mockResolvedValueOnce(mockValueOne).mockResolvedValueOnce(mockValueTwo)
+
+
+
+
         await act(async () => {
             render(
                 <BrowserRouter>
@@ -40,6 +52,11 @@ describe('Test Product Component', () => {
 
             );
         })
+        expect(spy).toHaveBeenCalled();
+
+        expect(spy).toBeCalledTimes(2);
+        
+
 
     })
 
@@ -47,7 +64,9 @@ describe('Test Product Component', () => {
         jest.restoreAllMocks();
     });
 
-    it("Render products correctly", async () => {
+     it("Render products correctly", async () => {
+
+
 
         const name = screen.getByText(/Apple/i)
         const pris = screen.getByText(/23/i)
@@ -94,41 +113,40 @@ describe('Test Product Component', () => {
         expect(pris1).not.toBeInTheDocument()
         expect(stock1).not.toBeInTheDocument()
 
-    })
+    }) 
+
+    
+
+    it("set cart items num to basket icon", async () => {
+
+        const basketIcon = screen.getByTestId("basket")
+    
+        const basketItemNum:any = basketIcon.getAttribute("data-value")
+
+        expect(basketItemNum).toEqual(res2)
+    
+
+    })  
 
 
     it("Add a product to cart", async () => {
-
-        const basketIcon = screen.getByTestId("basket")
-
-        const basketItemNum:any = basketIcon.getAttribute("value")
-
+   
         const btn = screen.getAllByTestId("AddToCart")[0]
-
-        console.log(basketItemNum)
-
-        //userEvent.click(btn)
-
-        const mockValue: any = {
-            json: jest.fn().mockResolvedValue((parseInt(basketItemNum))+1)
-        }
-
-        jest.spyOn(global, 'fetch').mockResolvedValue(mockValue)
-
-        act(() => {
-
+ 
+       await act(async () => {
+    
             userEvent.click(btn)
-
+    
         })
+    
+    
+         const message = screen.getByText(/Item is added to cart./i) 
 
-
-
-      //  const basketIcon2 = screen.getByTestId("basket")
-
-      //  const basketItemNum2:any = basketIcon2.getAttribute("value")
-
-      //  expect(parseInt(basketItemNum2)).toEqual((parseInt(basketItemNum))+1)
-
-
+         expect(message).toBeInTheDocument()
+    
+    
     })
-})
+
+}) 
+
+

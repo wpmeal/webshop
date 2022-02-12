@@ -53,14 +53,14 @@ export default class ApiHandler {
 
 
     // Setup connection properties
-    setUpConnection = (method: string, endpoint: string, paramName?: any, paramValue?: any, headers?:any, requestBody?:any ) => {
+    setUpConnection = (method: string, endpoint: string, paramName?: any, paramValue?: any, headers?: any, requestBody?: any) => {
 
         // setup required settings to our api call
         this.fetchInfo.method = method;
         this.fetchInfo.endpoint = endpoint;
         this.fetchInfo.paramName = paramName;
         this.fetchInfo.paramValue = paramValue;
-        this.fetchInfo.headers = headers ? headers : this.fetchInfo.headers 
+        this.fetchInfo.headers = headers ? headers : this.fetchInfo.headers
 
         this.fetchInfo.requestBody = requestBody
 
@@ -69,6 +69,7 @@ export default class ApiHandler {
 
     // execute the connection to the api 
     coonectTopApi = async () => {
+
         const url = this.prepareUrl();
         let init: {
             "method": string,
@@ -84,27 +85,34 @@ export default class ApiHandler {
         }
         // add a body to our request only on POST method otherwise it will throw an exception
         if (this.fetchInfo.method == "POST") {
-     
-          init.body = JSON.stringify(this.fetchInfo.requestBody);
+
+            init.body = JSON.stringify(this.fetchInfo.requestBody);
 
         } else {
-            
+
             delete init.body;
         }
 
 
-      //  console.log(init)   
+        //  console.log(init)   
 
-             // exectute the connection to backedn api 
-        const res = await fetch(
-            url,
-            init
-        );
-        // format the reponse as json
-        return await res.json();
+        // exectute the connection to backedn api 
+
+      //  try {
+
+            const res = await fetch(
+                url,
+                init
+            );
+            // format the reponse as json
+            return await res.json();
+
+
+      //  } catch (e) {
+      //      console.log(e)
+      //  }
 
     }
-
 
 
 

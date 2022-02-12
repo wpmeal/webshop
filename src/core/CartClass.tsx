@@ -27,7 +27,11 @@ export class CartClass {
    
     // add an item to cart 
     // parameter: an item name
-    addToCart = (itemName = '') => {
+    addToCart = async (itemName = '') => {
+
+
+
+        let result:boolean = false
 
       let reqBody = {
             "namn": itemName
@@ -37,10 +41,13 @@ export class CartClass {
         const cartIcon:any = document.querySelector("#basket")
         
         // execute the call
-        var res = this.apiHandler.coonectTopApi();
+        var val = await this.apiHandler.coonectTopApi();
+
+        console.log("addToCart")
+
 
         // handle the promsie of the response
-        res.then(async (val) => {  // if the promise is fullfilled 
+     //  await res.then(async (val) => {  // if the promise is fullfilled 
 
             console.log(val); // log the reponse data  
 
@@ -48,16 +55,20 @@ export class CartClass {
 
             // if error get received, display it to client
             if (val.name || val.message) {
+                
                 alert(val.message);
 
                 // if we have a valid response with the item added then update the html buttons
             } else {
 
+                result =  true
+
                        // update the basked icons with items number
 
-            const cartItems =  await this.countItems()   
+           //const cartItems =  await this.countItems()   
 
-            cartIcon.setAttribute("value", cartItems?.toString());
+            //cartIcon.setAttribute("value", cartItems?.toString());
+            //cartIcon.setAttribute("data-value", cartItems?.toString());
 
             
 
@@ -66,9 +77,13 @@ export class CartClass {
 
                 // show remove from cart button  
               //  document.querySelector("#" + itemName)?.querySelector(".removeFromCart")?.setAttribute("style", "block");
+              return result
+
             }
 
-        });
+        //});
+
+
     }
 
 

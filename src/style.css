@@ -83,22 +83,7 @@ margin: 0;
 #shopping-cart p:last-child{
     padding: 0 10%;
 }
-.badge
-{
-    float: right;
-    padding: .75% 3%;
-}
-.badge:after{
-    content:attr(value);
-    font-size:12px;
-    background: red;
-    border-radius:50%;
-    padding:3px;
-    position:relative;
-    left:-8px;
-    top:-10px;
-    opacity:0.9; 
-    }
+
   
 
     .Login > form {
@@ -117,4 +102,13 @@ margin: 0;
     }
     .userInfo  > * {
         display: block;
+    }
+
+    #lblCartCount {
+        font-size: 12px;
+        background: #ff0000;
+        color: #fff;
+        padding: 0 5px;
+        vertical-align: top;
+        margin-left: -10px;
     }
