@@ -58,6 +58,8 @@ function Products() {
 
   async function addToCart(e: any, name: string) {
 
+    e.preventDefault()
+
     console.log("addToCart clicked")
 
     let result = await productClass.Cart.addToCart(name)
@@ -71,7 +73,7 @@ function Products() {
       if (basketNum) {
 
         setBasketNum(basketNum)
-        setMessage("Item is added to cart.")
+        setMessage("New item is added to cart")
 
       }
     }
@@ -119,7 +121,7 @@ function Products() {
           </Button>
         </Form>
       </section>
-      <b style={none}>{message}</b>
+      {message &&  <b data-testid="message" data-value={message}></b>}
       <section id="products">
         {items.length > 0 && items.map((el: any) => (
           <article key={el.namn}> <div><aside><img src={el.bild} alt="product image" /></aside>
@@ -127,7 +129,7 @@ function Products() {
             <p>{el.pris}</p>
             <p>Qty:{el.stock}</p>
           </div>
-            <p><button className="addToCart" onClick={ async (e) => ( await addToCart(e, el.namn))} data-testid="AddToCart"  >Add to cart</button></p>
+            <p><button className="addToCart" onClick={ e => addToCart(e, el.namn)} data-testid="1AddToCart"  >Add to cart</button></p>
           </article>
 
         )

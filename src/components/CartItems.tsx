@@ -11,6 +11,9 @@ export default function CartItems() {
 
   const [totalPrice, setTotalPrice] = useState(0)
 
+  const [error, setError]:any = useState(null)
+
+
 
   const cartClass = new CartClass
 
@@ -73,10 +76,15 @@ export default function CartItems() {
 
     e.preventDefault()
 
-    const item: any = await cartClass.changeItemQty(e, name, e.target.value)
+    const result: any = await cartClass.changeItemQty(e, name, e.target.value)
 
-    if (item) {
+    if (result) {
+      setError(null)
+
       setRefresh(true)
+
+    }else {
+      setError("can not change qty of cart item")
     }
 
 
@@ -85,21 +93,22 @@ export default function CartItems() {
 
 
   return (
-    <> {items.length > 0 && items.map((el: any) => (
+    <> <b data-testid="error">{error}</b>
+    {items.length > 0 && items.map((el: any) => (
       <article><p><img width="50px" height="50px" src={el.bild} /></p>
         <p>{el.namn}</p>
         <p>{el.pris}</p>
 
-        <p><input name="changeItemQty" data-testid="qty" onBlur={e => changeItemQty(e, el.namn)} defaultValue={el.qty} /></p>
+        <p><input name="changeItemQty" data-testid="qty" onBlur={e => changeItemQty(e, el.namn)} defaultValue={el.qty}/></p>
 
 
-        <p><button className="removeFromCart" onClick={e => removeFrmCart(e, el.namn)}    >Remove from cart</button></p>
+        <p><button className="removeFromCart" data-testid="removeCartItem"  onClick={e => removeFrmCart(e, el.namn)}    >Remove from cart</button></p>
       </article>
 
     )
     )
     }
-     { items.length > 0 &&  <article><p>Total Price:</p><p>{totalPrice}</p></article>}
+     { items.length > 0 &&  <article><p>Total Price:</p><p>{totalPrice.toString()}</p></article>}
 
     </>
   )

@@ -63,25 +63,12 @@ export class CartClass {
 
                 result =  true
 
-                       // update the basked icons with items number
-
-           //const cartItems =  await this.countItems()   
-
-            //cartIcon.setAttribute("value", cartItems?.toString());
-            //cartIcon.setAttribute("data-value", cartItems?.toString());
-
-            
-
-                // hide add to cart button
-               // document.querySelector("#" + itemName)?.querySelector(".addToCart")?.setAttribute("style", "block");
-
-                // show remove from cart button  
-              //  document.querySelector("#" + itemName)?.querySelector(".removeFromCart")?.setAttribute("style", "block");
-              return result
+         
 
             }
 
         //});
+        return result
 
 
     }
@@ -90,6 +77,8 @@ export class CartClass {
         // change itemsqty
     // parameter: an item name
     changeQty = async (itemName = '', qty = 0) => {
+
+        let result:boolean = false
 
         let reqBody = {
               "namn": itemName,
@@ -109,17 +98,23 @@ export class CartClass {
   
               // if error get received, display it to client
               if (val.name || val.message) {
+                console.log("not success!")
+
                   alert(val.message);
   
                   // if we have a valid response with the item added then update the html buttons
               } else if (val) {
-  
+
+                console.log("success!")
+                 result = true 
 
                 console.log(val)
-                 return val
                 // update total price
       
               }
+
+              return result
+
   
         //  });
       }
