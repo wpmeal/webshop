@@ -2,9 +2,9 @@
   "products": [
     {
       "namn": "Apple",
-      "pris": 23,
+      "pris": "23",
       "bild": "/images/apple.jpg",
-      "stock": 23
+      "stock": "55"
     },
     {
       "namn": "Apelsin",
@@ -14,15 +14,15 @@
     },
     {
       "namn": "Banan",
-      "pris": 42,
+      "pris": "42",
       "bild": "/images/banan.jpg",
-      "stock": 67
+      "stock": "88"
     },
     {
       "namn": "Gurka",
-      "pris": 66,
+      "pris": "99",
       "bild": "/images/gurka.jpg",
-      "stock": 56
+      "stock": "56"
     },
     {
       "namn": "Vattenmelon",
@@ -35,6 +35,48 @@
       "pris": 17,
       "bild": "/images/potatis.jpg",
       "stock": 80
+    },
+    {
+      "namn": "Pumpa",
+      "pris": "33",
+      "stock": "77",
+      "bild": "/www/eee.png"
+    },
+    {
+      "namn": "ddd",
+      "pris": "67",
+      "stock": "78",
+      "bild": "/aa/img33.png"
+    },
+    {
+      "namn": "ttt",
+      "pris": "67",
+      "stock": "78",
+      "bild": "/aa/img33.png"
+    },
+    {
+      "namn": "wewe",
+      "pris": "33",
+      "stock": "45",
+      "bild": "/aa/img.png"
+    },
+    {
+      "namn": "adas",
+      "pris": "4",
+      "stock": "34",
+      "bild": "43"
+    },
+    {
+      "namn": "qweqw",
+      "pris": "343",
+      "stock": "wewe",
+      "bild": "qweqw"
+    },
+    {
+      "namn": "yyyy",
+      "pris": "asdas",
+      "stock": "adasd",
+      "bild": "adas"
     }
   ],
   "varukorg": [
@@ -79,13 +121,15 @@
       "username": "Ada",
       "password": "$2b$10$zAaxd5Jk9xa0ARtnygdI5ue3Z/zmHNbwPCBkrP79.rLtuuybNCf5e",
       "id": "hFGlJMzZTKbBuPJYTAsJH",
-      "address": "YellowStone valley, street 101, zipcode 4564645, Mi, USA"
+      "address": "YellowStone valley, street 101, zipcode 4564645, Mi, USA",
+      "role": "user"
     },
     {
       "username": "omar",
       "password": "$2b$10$WjJqHWx1ZukAu7yntZWXPO9PfSl1ZAExZDoxGsaLLAJoPWaOKhMKm",
       "id": "_DW-mZnKlSyhlILuRn-YY",
-      "address": "Kastvindsgatan 2C lgh 2343, 41714, Gothenburg"
+      "address": "Kastvindsgatan 2C lgh 2343, 41714, Gothenburg",
+      "role": "admin"
     }
   ]
 }

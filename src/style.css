@@ -112,3 +112,28 @@ margin: 0;
         vertical-align: top;
         margin-left: -10px;
     }
+
+
+    main #admin {
+        display:grid;
+        grid-template-columns: repeat(1, 1fr);
+
+
+    }
+
+    #admin > article {
+        grid-column: auto / span 1;
+        padding: 0 5% 5% 0;
+    
+    }
+
+    #admin img {
+     width:50px;
+     height:50px;
+    
+    }
+
+    #admin > article > div{
+        display: inline-flex;
+        width:100%;
+    }

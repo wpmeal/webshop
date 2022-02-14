@@ -116,6 +116,36 @@ export class ProductClass {
     }
 
 
+    updateItem = async  (name:any, pris:any, bild:any, stock:any) => {
+    // reassign item data
+    let item = {
+        "name": name,
+        "pris": pris,
+        "bild": bild,
+        "stock": stock
+      };
+  
+      // set connections settings 
+    //  this.initConnection.fetchInfo.method = 'POST';
+      //this.initConnection.fetchInfo.endpoint = 'login';
+      const headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+   
+      this.apiHandler.setUpConnection('POST','updateItem', null, null, headers,  item)
+  
+      // execute connection to backend  
+      const data = await this.apiHandler.coonectTopApi()
+  
+      // log response data
+      console.log(data);
+  
+      // return response data 
+      return data;
+  
+    }
+
 }
 
 export default ProductClass;

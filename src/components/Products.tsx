@@ -1,13 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ApiHandler from '../core/ApiHandler'
 import ProductClass from '../core/ProductClass';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingBasket } from '@fortawesome/fontawesome-free-solid';
+import { userCtx } from '../App';
+import ItemForm from './ItemForm';
+import { isNullOrUndefined } from 'util';
 
 
 function Products() {
+
+  const userCtxConsumer:any = useContext(userCtx)
+
+  console.log(userCtxConsumer)
+
+  const isAdmin:boolean = userCtxConsumer.role =="admin" ? true : false
+
+  //const [isAdmin, setiAdmin]:boolean  = useState(false)
 
   const [name, setName] = useState('')
 
@@ -22,6 +33,9 @@ function Products() {
 
 
   const [message, setMessage] = useState("");
+
+  const [form, setForm] = useState(null);
+
 
 
   const productClass = new ProductClass
@@ -50,7 +64,7 @@ function Products() {
 
     initProductsClass()
 
-  }, [])
+  }, [userCtxConsumer])
 
   function validateForm() {
     return name.length >= 0;
@@ -95,16 +109,41 @@ function Products() {
     })
     setItems(filteredItems)
   }
+function editItem(e:any, item:string){
 
+  e.preventDefault()
+
+  console.log(item)
+
+  const itemForm:any =<ItemForm item={item}/>
+
+  setForm(itemForm)
+
+}
+
+function addItem(e:any){
+
+  e.preventDefault()
+
+
+  const itemForm:any =<ItemForm/>
+
+  setForm(itemForm)
+
+}
+function deleteItem(e:any, name:string){
+
+}
 
   return (
+
     <>
-      <section>
-        <Link to="cart">
+      <section>{form}
+        {!isAdmin && <Link to="cart">
           <FontAwesomeIcon icon={icon} />
 
           <span className='badge badge-warning' id='lblCartCount' data-testid="basket" data-value={basketNum}>{basketNum}</span>
-        </Link>
+        </Link>}
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="filter">
             <Form.Control
@@ -120,16 +159,21 @@ function Products() {
             Filter By Name
           </Button>
         </Form>
+
+        <a href="#" onClick={(e)=>addItem(e)} >Add</a>
       </section>
       {message &&  <b data-testid="message" data-value={message}></b>}
-      <section id="products">
+      <section id={!isAdmin ? "products" : "admin"}>
         {items.length > 0 && items.map((el: any) => (
           <article key={el.namn}> <div><aside><img src={el.bild} alt="product image" /></aside>
             <p>{el.namn}</p>
-            <p>{el.pris}</p>
-            <p>Qty:{el.stock}</p>
+            <p>{!isAdmin && "Pris:"}&nbsp;{el.pris}</p>
+            <p>{!isAdmin && "Qty:"}&nbsp;{el.stock}</p>
+            {isAdmin && <p><a href="#" onClick={(e)=>editItem(e, el)} >Edit</a></p>}
+            {isAdmin && <p><a href="#"  onClick={(e)=>deleteItem(e, el.namn)} >Delete</a></p>}
+
           </div>
-            <p><button className="addToCart" onClick={ e => addToCart(e, el.namn)} data-testid="1AddToCart"  >Add to cart</button></p>
+          {!isAdmin && <p><button className="addToCart" onClick={ e => addToCart(e, el.namn)} data-testid="1AddToCart"  >Add to cart</button></p>}
           </article>
 
         )
@@ -138,6 +182,7 @@ function Products() {
         }
       </section>
     </>
+
   )
 
 }

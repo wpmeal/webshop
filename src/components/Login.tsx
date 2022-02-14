@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import UserClass from "../core/UserClass";
+import { userCtx } from "../App";
 
 export default function Login() {
+
+  const userCtxConsumer = useContext(userCtx)
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -36,12 +40,18 @@ export default function Login() {
 
      setDisplayForm(false)
 
+     userCtxConsumer.username =  result.username
+     userCtxConsumer.role =  result.role
+ 
+
      setLoggedInUser({
       username: result.username,
       address: result.address
     })
 
-
+    if(userCtxConsumer.role == "admin"){
+    //  window.location.reload()
+    }
 
 
  
@@ -63,6 +73,11 @@ export default function Login() {
 
    
    setLoggedInUser(user)
+
+   userCtxConsumer.username =  user.username
+   userCtxConsumer.role =  user.role
+
+  
 
 
     }catch(e:any){

@@ -449,6 +449,8 @@ app.post("/api/login/", async (request, response) => {
    
       // Log loggedIn user
       console.log('User', credentialsDB.username);
+      console.log('Role', credentialsDB.role);
+
   
       // Sign loggedIn user using jwt  
       const token = jwt.sign({ id: credentialsDB.id }, 'a1b1c1', {
@@ -460,6 +462,8 @@ app.post("/api/login/", async (request, response) => {
      result = {
         username: credentialsDB.username,
         address: credentialsDB.address,
+        role: credentialsDB.role,
+
         token: token
 
       }
@@ -555,7 +559,9 @@ app.get('/api/countCartItems/', (request, response) => {
 
   result = {
     "username": user.username,
-    "address": user.address
+    "address": user.address,
+    "role": user.role
+
   };  
 
     // catch any throwable error 
@@ -575,7 +581,88 @@ app.get('/api/countCartItems/', (request, response) => {
 
 });
 
+/* 
+* Update Item
+* Endpoint: /UpdateItem/
+* Base /api/ 
+*/
+app.post("/api/updateItem/", async (request, response) => {
+  let result = null;
 
+try {
+
+    // Reassign the request body  
+    const item = request.body;
+
+ 
+    // Log item
+    console.log("Create/update an item");
+    console.log('name', item.name);
+    console.log('pris', item.pris);
+    console.log('bild', item.bild);
+    
+
+    const productInDB = database.get("products").find({ namn: item.name }).value();
+
+    console.log(productInDB)
+
+    if (productInDB){
+    const updatedProduct = database.get("products").find({namn: item.name}).assign({
+
+      namn: item.name,
+      pris: item.pris,
+      stock: item.stock,
+      bild: item.bild,
+
+    }).write()
+
+    console.log(productInDB)
+
+    result = productInDB
+
+  }
+
+ else {
+
+   // throw new Error("Kunna inte uppdatera produktet qty!");
+
+   const productInDB = database.get("products").push({
+    namn: item.name,
+    pris: item.pris,
+    stock: item.stock,
+    bild: item.bild,
+   }).write()
+   console.log(productInDB.length)
+
+   if (productInDB.length > 0){
+
+    result = productInDB
+
+    }
+    else {
+
+      throw new Error("Kunna inte skapa ett nyt produkt!");
+
+    }
+
+
+  }
+} catch (e) {
+  // log error to server  
+  console.log(e.message);
+
+  // assign catched error as json obj
+  result = {
+    "error": e.name,
+    "message": e.message
+  };
+
+}
+  // return result
+  response.json(result);
+
+
+  })
 // start a new server on port:8000
 app.listen(8000, () => {
     console.log('Server started');
