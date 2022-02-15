@@ -11,12 +11,12 @@ export default function Admin(props:any) {
     return (
 <div className="wrapper">
             <header>
-                <h2> Home  </h2>
-
+                <h2> Admin Panel  </h2>
+                 <Link to="/">Home</Link>
                 <Login ></Login>
             </header>
             <main>
-                <Products />
+                <Products page="admin" />
             </main>
             </div>
 

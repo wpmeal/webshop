@@ -36,7 +36,7 @@ export default function Login() {
     console.log(result)
   
     // save token received from backend 
-    await userClass.saveToken(result.token)
+    await userClass.saveToken(result)
 
      setDisplayForm(false)
 
@@ -61,13 +61,15 @@ export default function Login() {
 
 } 
   }
-  const getLoggedInUser = async () => {
+  const getLoggedInUser = () => {
 
-    try{
+    //try{
 
-   const user:any = await userClass.isLoggedIn()
+   const user:any = userClass.getLoggedInUser()
 
-   //console.log(user)
+   console.log(user)
+
+   if(user.username){
 
    setDisplayForm(false)
 
@@ -80,16 +82,15 @@ export default function Login() {
   
 
 
-    }catch(e:any){
-
-      console.log(e.message)
+   // }catch(e:any){
+   }else {
 
       setDisplayForm(true)
 
 
-    }
+    //}
   }
-
+  }
   useEffect(  () => {
 
     getLoggedInUser()

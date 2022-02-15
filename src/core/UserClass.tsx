@@ -16,15 +16,19 @@ export default class UserClass {
   }
 
   // save login token as session item  
-  saveToken = (token:any) => {
+  saveToken = (user:any) => {
 
-    return new Promise((resolve, reject) => {
+    //return new Promise((resolve, reject) => {
 
-      sessionStorage.setItem('auth', token);
+   //   sessionStorage.setItem('auth', user.token);
+       let userStr= JSON.stringify(user)
 
-      resolve('Done');
+       sessionStorage.setItem('user', userStr);
 
-    });
+
+      //resolve('Done');
+
+   // });
 
   }
 
@@ -33,9 +37,13 @@ export default class UserClass {
 
     let token = null;
 
-    if (sessionStorage.getItem('auth')) {
+    if (sessionStorage.getItem('user')) {
 
-      token = sessionStorage.getItem('auth');
+      let user:any = sessionStorage.getItem('user')
+
+       user = JSON.parse(user) 
+
+       token= user.token
 
     }
 
@@ -46,7 +54,10 @@ export default class UserClass {
   // delete token from session storage
   deleteToken = () => {
 
-    sessionStorage.removeItem('auth');
+   // sessionStorage.removeItem('auth');
+
+    sessionStorage.removeItem('user');
+
 
   }
 
@@ -89,40 +100,20 @@ export default class UserClass {
   * params: token
   * return token/error as json
   */
-   isLoggedIn = async () => {
+   getLoggedInUser = () => {
 
-    // reassign credentials
+ let user = { username: "", address: "", role: "" }
 
-    const token = UserClass.getToken()
 
-    if(!token){
-      throw new Error("Display login form")
+    if (sessionStorage.getItem('user')) {
+
+      let user2:any = sessionStorage.getItem('user')
+
+       user = JSON.parse(user2) 
+
     }
-   
-
-    // set connections settings 
-  //  this.initConnection.fetchInfo.method = 'POST';
-    //this.initConnection.fetchInfo.endpoint = 'login';
-    const headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': "Bearer "+token,
-    }
- 
-    this.initConnection.setUpConnection('get','loggedInUser', "token", token, headers)
-
-    // execute connection to backend  
-    const data = await this.initConnection.coonectTopApi()
-
-    // log response data
-
-   if(data.error){
-    throw new Error("Invalid Token! Display login form"+data.message)
-
-   }
-
-    // return response data 
-    return data;
+    
+    return user
 
   }
 }

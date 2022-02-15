@@ -7,16 +7,35 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingBasket } from '@fortawesome/fontawesome-free-solid';
 import { userCtx } from '../App';
 import ItemForm from './ItemForm';
-import { isNullOrUndefined } from 'util';
 
 
-function Products() {
+ function Products(props:any) {
 
   const userCtxConsumer:any = useContext(userCtx)
 
-  console.log(userCtxConsumer)
+ // const [user, setUser]:any = useState({}) 
 
-  const isAdmin:boolean = userCtxConsumer.role =="admin" ? true : false
+console.log(userCtxConsumer)
+
+const user = userCtxConsumer
+
+//setUser(userCtxConsumer)
+
+
+/*   userCtxConsumer.then( (resolve1:any) =>{
+  
+    setUser(resolve1)
+
+  }) */
+
+
+  const isAdminUser:boolean = user.role =="admin" ? true : false
+
+  const isAdminPage:boolean = props.page =="admin" ? true : false
+
+  const isAdmin:boolean = isAdminUser && isAdminPage  ? true : false
+
+
 
   //const [isAdmin, setiAdmin]:boolean  = useState(false)
 
@@ -64,7 +83,9 @@ function Products() {
 
     initProductsClass()
 
-  }, [userCtxConsumer])
+    
+
+  }, [])
 
   function validateForm() {
     return name.length >= 0;
@@ -131,7 +152,17 @@ function addItem(e:any){
   setForm(itemForm)
 
 }
-function deleteItem(e:any, name:string){
+async function deleteItem(e:any, name:string){
+
+  e.preventDefault()
+
+  const result = await productClass.deleteItem(name)
+
+  console.log(result)
+
+  if(result.name != "Error"){
+
+  }
 
 }
 
@@ -160,7 +191,7 @@ function deleteItem(e:any, name:string){
           </Button>
         </Form>
 
-        <a href="#" onClick={(e)=>addItem(e)} >Add</a>
+        {isAdmin && <a href="#" onClick={(e)=>addItem(e)} >Add</a>}
       </section>
       {message &&  <b data-testid="message" data-value={message}></b>}
       <section id={!isAdmin ? "products" : "admin"}>

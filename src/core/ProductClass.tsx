@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ApiHandler from './ApiHandler';
 import CartClass from './CartClass';
+import UserClass from './UserClass';
 
 export class ProductClass {
    
@@ -117,6 +118,13 @@ export class ProductClass {
 
 
     updateItem = async  (name:any, pris:any, bild:any, stock:any) => {
+
+      const token = UserClass.getToken()
+
+      if(!token){
+        throw new Error("Display login form")
+      }
+
     // reassign item data
     let item = {
         "name": name,
@@ -130,7 +138,9 @@ export class ProductClass {
       //this.initConnection.fetchInfo.endpoint = 'login';
       const headers = {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Authorization': "Bearer "+token
+
       }
    
       this.apiHandler.setUpConnection('POST','updateItem', null, null, headers,  item)
@@ -146,6 +156,38 @@ export class ProductClass {
   
     }
 
+// delete item
+    deleteItem = async  (name:any) => {
+
+      const token = UserClass.getToken()
+
+      if(!token){
+        throw new Error("Display login form")
+      }
+
+  
+      // set connections settings 
+    //  this.initConnection.fetchInfo.method = 'POST';
+      //this.initConnection.fetchInfo.endpoint = 'login';
+      const headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': "Bearer "+token
+
+      }
+   
+      this.apiHandler.setUpConnection('DELETE','deleteItem', "name", name, headers)
+  
+      // execute connection to backend  
+      const data = await this.apiHandler.coonectTopApi()
+  
+      // log response data
+      console.log(data);
+  
+      // return response data 
+      return data;
+  
+    }
 }
 
 export default ProductClass;
