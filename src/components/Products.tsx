@@ -5,16 +5,24 @@ import ApiHandler from '../core/ApiHandler'
 import ProductClass from '../core/ProductClass';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingBasket } from '@fortawesome/fontawesome-free-solid';
-import { userCtx } from '../App';
 import ItemForm from './ItemForm';
+import { useRecoilState } from 'recoil';
+import { loggedInState } from '../atoms/loggedInState';
+import { itemState } from '../atoms/ItemState';
 
 
  function Products(props:any) {
 
-  const userCtxConsumer:any = useContext(userCtx)
+  const [loggedInUser, setLoggedInUser]:any = useRecoilState(loggedInState);
+
+  const [item, setItem]:any = useRecoilState(itemState)
+
+
+
+  //const userCtxConsumer:any = useContext(userCtx)
 
  // const [user, setUser]:any = useState({}) 
-
+/* 
 console.log(userCtxConsumer)
 
 const user = userCtxConsumer
@@ -26,10 +34,10 @@ const user = userCtxConsumer
   
     setUser(resolve1)
 
-  }) */
+  }) */ 
 
 
-  const isAdminUser:boolean = user.role =="admin" ? true : false
+  const isAdminUser:boolean = loggedInUser.role =="admin" ? true : false
 
   const isAdminPage:boolean = props.page =="admin" ? true : false
 
@@ -83,9 +91,13 @@ const user = userCtxConsumer
 
     initProductsClass()
 
-    
-
   }, [])
+
+  useEffect(() => {
+
+   setItems((items:any) => [...items, item])
+
+  }, [item])
 
   function validateForm() {
     return name.length >= 0;
@@ -156,14 +168,20 @@ async function deleteItem(e:any, name:string){
 
   e.preventDefault()
 
+  console.log(name)
+
   const result = await productClass.deleteItem(name)
 
   console.log(result)
 
   if(result.name != "Error"){
 
-  }
+    const updatedItems = items.filter( (el:any) => { return el.namn != name })
 
+    setItems(updatedItems)
+    
+
+  }
 }
 
   return (

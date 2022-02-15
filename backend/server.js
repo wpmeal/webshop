@@ -385,9 +385,11 @@ app.delete("/api/deleteItem/name/:name", user, (request, response) => {
     // if(result == 0)   
 
     // remove first the item in varukorg
-    database.get("varukorg").remove({ namn: name }).write();
+      database.get("varukorg").remove({ namn: name }).write();
 
-    return  database.get("products").remove({ namn: name }).write();
+      database.get("products").remove({ namn: name }).write();
+
+       response.status(202).json(name)
 
     // return a json response with all items of varukorg
     //response.json(database.get("varukorg").write());
@@ -727,7 +729,7 @@ app.post("/api/updateItem/", user, async (request, response) => {
 
       if (productInDB.length > 0) {
 
-        result = productInDB
+        result = productInDB[productInDB.length-1]
 
       }
       else {

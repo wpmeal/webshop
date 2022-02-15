@@ -10,17 +10,13 @@ import Cart from './pages/Cart';
 import Login from './components/Login';
 import UserClass from './core/UserClass';
 import Admin from './pages/Admin';
+import { RecoilRoot } from 'recoil';
 
-export const userCtx = createContext({
-  username: "",
-  address: "",
-  role: "",
-})
 
 
 
   function App() {
-
+/*
   const [user, setUser]:any = useState({}) 
 
   const userClass = new UserClass()
@@ -44,11 +40,12 @@ export const userCtx = createContext({
   let result =   getLoggedInUser()
 
   setUser(result)
-},[]) 
+},[]) */
  
 
-return (<>
-        <userCtx.Provider value={logeedInUser}>
+return (
+    <RecoilRoot>
+
 
 
 <Routes>
@@ -64,8 +61,9 @@ return (<>
    Copyright © April 2021 | Omar Mahrous
     </section>
 
-</userCtx.Provider>
-</>
+
+</RecoilRoot>
+
    
   )
 }

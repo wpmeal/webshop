@@ -25,51 +25,13 @@
       "stock": 80
     },
     {
-      "namn": "Pumpa",
-      "pris": "33",
-      "stock": "77",
-      "bild": "/www/eee.png"
-    },
-    {
-      "namn": "ddd",
-      "pris": "67",
-      "stock": "78",
-      "bild": "/aa/img33.png"
-    },
-    {
-      "namn": "ttt",
-      "pris": "67",
-      "stock": "78",
-      "bild": "/aa/img33.png"
-    },
-    {
       "namn": "Broccoli",
       "pris": "43.6",
       "stock": "35",
       "bild": "https://solidstarts.com/wp-content/uploads/Broccoli_edited-scaled.jpg"
-    },
-    {
-      "namn": "aa",
-      "pris": "232",
-      "stock": "45",
-      "bild": "ddd"
-    },
-    {
-      "namn": "asds",
-      "pris": "45",
-      "stock": "45",
-      "bild": "asd"
     }
   ],
-  "varukorg": [
-    {
-      "namn": "Apple",
-      "pris": 23,
-      "bild": "/images/apple.jpg",
-      "stock": 23,
-      "qty": 26
-    }
-  ],
+  "varukorg": [],
   "staff": [
     {
       "username": "Ada",

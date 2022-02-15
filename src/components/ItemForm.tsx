@@ -2,14 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import UserClass from "../core/UserClass";
-import { userCtx } from "../App";
 import ProductClass from "../core/ProductClass";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { itemState } from "../atoms/ItemState";
 
 
 export default function ItemForm(props: any) {
 
-  const userCtxConsumer = useContext(userCtx)
 
   console.log(props)
 
@@ -26,6 +26,8 @@ export default function ItemForm(props: any) {
 
   const productClass = new ProductClass()
 
+  const [item, setItem]:any = useRecoilState(itemState)
+
 
   function validateForm() {
     return name.length > 0 && parseInt(pris) > 0 && bild.length > 0 && parseInt(stock) > 0;
@@ -40,7 +42,10 @@ export default function ItemForm(props: any) {
     if (!result.error) {
 
       console.log(result)
-      window.location.reload();
+     // window.location.reload();
+
+     setItem(result)
+     
 
 
     } else { // otherwise error occurs, display it!!

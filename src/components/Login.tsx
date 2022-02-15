@@ -2,19 +2,22 @@ import React, { useContext, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import UserClass from "../core/UserClass";
-import { userCtx } from "../App";
+//import { userCtx } from "../App";
+import { useRecoilState } from "recoil";
+import {loggedInState} from "../atoms/loggedInState"
 
 export default function Login() {
 
-  const userCtxConsumer = useContext(userCtx)
+ // const userCtxConsumer = useContext(userCtx)
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [error, setError] = useState("");
-  const [loggedInUser, setLoggedInUser] = useState({username: null, address:null });
+  //const [loggedInUser, setLoggedInUser] = useState({username: null, address:null });
   const [displayForm, setDisplayForm] = useState(false);
 
+  const [loggedInUser, setLoggedInUser]:any = useRecoilState(loggedInState);
 
   
 
@@ -40,18 +43,17 @@ export default function Login() {
 
      setDisplayForm(false)
 
-     userCtxConsumer.username =  result.username
-     userCtxConsumer.role =  result.role
+     //userCtxConsumer.username =  result.username
+     //userCtxConsumer.role =  result.role
+
+    // setLoggedInUser2(result)
  
 
-     setLoggedInUser({
-      username: result.username,
-      address: result.address
-    })
+     setLoggedInUser(result)
 
-    if(userCtxConsumer.role == "admin"){
+    //if(userCtxConsumer.role == "admin"){
     //  window.location.reload()
-    }
+    //}
 
 
  
@@ -76,8 +78,6 @@ export default function Login() {
    
    setLoggedInUser(user)
 
-   userCtxConsumer.username =  user.username
-   userCtxConsumer.role =  user.role
 
   
 
@@ -128,7 +128,7 @@ export default function Login() {
       </Form>
   }
 
-      
+
   
 
 </div>
