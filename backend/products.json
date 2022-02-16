@@ -2,21 +2,15 @@
   "products": [
     {
       "namn": "Banan",
-      "pris": "42",
-      "bild": "/images/banan.jpg",
-      "stock": "88"
-    },
-    {
-      "namn": "Gurka",
       "pris": "99",
-      "bild": "/images/gurka.jpg",
-      "stock": "56"
+      "bild": "/images/banan.jpg",
+      "stock": "888"
     },
     {
       "namn": "Vattenmelon",
-      "pris": 45,
+      "pris": "501",
       "bild": "/images/vattenmellon.jpg",
-      "stock": 60
+      "stock": "600"
     },
     {
       "namn": "Potatis",
@@ -26,12 +20,26 @@
     },
     {
       "namn": "Broccoli",
-      "pris": "43.6",
+      "pris": "51.88",
       "stock": "35",
       "bild": "https://solidstarts.com/wp-content/uploads/Broccoli_edited-scaled.jpg"
+    },
+    {
+      "namn": "Gurka",
+      "pris": "33",
+      "stock": "56",
+      "bild": "/images/gurka.jpg"
     }
   ],
-  "varukorg": [],
+  "varukorg": [
+    {
+      "namn": "Banan",
+      "pris": "999",
+      "bild": "/images/banan.jpg",
+      "stock": "88896",
+      "qty": 1
+    }
+  ],
   "staff": [
     {
       "username": "Ada",

@@ -3,17 +3,22 @@ import { act, render, screen } from '@testing-library/react';
 import userEvent from "@testing-library/user-event"
 
 import Login from '../components/Login';
+import { RecoilRoot } from 'recoil';
 
-import { mockSessionStorage } from "../../utils/mockSessionStorage"
+//import { mockSessionStorage } from "../../utils/mockSessionStorage"
 
-const { getItemMock, setItemMock } = mockSessionStorage();
+//const { getItemMock, setItemMock } = mockSessionStorage();
 
 describe('Test Login Component', () => {
 
   beforeEach(async () => {
 
     await act(async () => {
-      render(<Login />);
+      render(
+        <RecoilRoot>
+          <Login />
+        </RecoilRoot>
+      );
     })
 
   })

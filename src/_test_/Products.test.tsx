@@ -1,13 +1,14 @@
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 import Products from '../components/Products';
 import Home from '../pages/Home';
 
 
 describe('Test Product Component', () => {
 
-    const res:Array<any> = [
+    const res: Array<any> = [
         {
             namn: "Apple",
             pris: 23,
@@ -21,8 +22,8 @@ describe('Test Product Component', () => {
             stock: 88
         }
     ]
-      //an arbitrary value  for the second fetch response mock that match cart items calucation procedure
-    const  res2 = {cartItemsNum: "57"}
+    //an arbitrary value  for the second fetch response mock that match cart items calucation procedure
+    const res2 = { cartItemsNum: "57" }
 
 
 
@@ -31,27 +32,30 @@ describe('Test Product Component', () => {
         const mockValueOne: any = {
             json: jest.fn().mockResolvedValue(res)
         }
-    
+
         const mockValueTwo: any = {
-    
+
             json: jest.fn().mockResolvedValue(res2)
         }
 
-        const spy =   jest.spyOn(global, 'fetch').mockResolvedValueOnce(mockValueOne).mockResolvedValueOnce(mockValueTwo)
+        const spy = jest.spyOn(global, 'fetch').mockResolvedValueOnce(mockValueOne).mockResolvedValueOnce(mockValueTwo)
 
         await act(async () => {
             render(
-                <BrowserRouter>
-                <Products/>
-                </BrowserRouter>
-                  
+                <RecoilRoot>
+                    <BrowserRouter>
+                        <Products />
+                    </BrowserRouter>
+                </RecoilRoot>
+
+
 
             );
         })
         expect(spy).toHaveBeenCalled();
 
         //expect(spy).toBeCalledTimes(2);
-        
+
 
 
     })
@@ -60,7 +64,7 @@ describe('Test Product Component', () => {
         jest.restoreAllMocks();
     });
 
-     it("Render products correctly", async () => {
+    it("Render products correctly", async () => {
 
 
 
@@ -109,20 +113,20 @@ describe('Test Product Component', () => {
         expect(pris1).not.toBeInTheDocument()
         expect(stock1).not.toBeInTheDocument()
 
-    }) 
+    })
 
-    
+
 
     it("set cart items num to basket icon", async () => {
 
         const basketIcon = screen.getByTestId("basket")
-    
-        const basketItemNum:any = basketIcon.getAttribute("data-value")
+
+        const basketItemNum: any = basketIcon.getAttribute("data-value")
 
         expect(basketItemNum).toEqual(res2.cartItemsNum)
-    
 
-    })  
+
+    })
 
 
     it("Add a product to cart", async () => {
@@ -131,36 +135,36 @@ describe('Test Product Component', () => {
 
             json: jest.fn().mockResolvedValue(res)
         }
-    
+
         const mockValueTwo: any = {
-    
+
             json: jest.fn().mockResolvedValue(res2)
         }
 
-        const spy =   jest.spyOn(global, 'fetch').mockResolvedValueOnce(mockValueOne).mockResolvedValueOnce(mockValueTwo)
- 
+        const spy = jest.spyOn(global, 'fetch').mockResolvedValueOnce(mockValueOne).mockResolvedValueOnce(mockValueTwo)
+
         const btn = screen.getAllByTestId("1AddToCart")[0]
-    
-   
-       await act(async () => {
-    
-    
+
+
+        await act(async () => {
+
+
             userEvent.click(btn)
-    
+
         })
-    
+
         expect(spy).toHaveBeenCalled();
-    
+
         expect(spy).toBeCalledTimes(4);
-    
-    
-         const message = screen.getByTestId("message").getAttribute("data-value")
-    
-         expect(message).toEqual("New item is added to cart")
-    
-    
-    
+
+
+        const message = screen.getByTestId("message").getAttribute("data-value")
+
+        expect(message).toEqual("New item is added to cart")
+
+
+
     })
 
-}) 
+})
 

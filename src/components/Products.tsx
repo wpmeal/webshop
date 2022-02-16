@@ -11,41 +11,20 @@ import { loggedInState } from '../atoms/loggedInState';
 import { itemState } from '../atoms/ItemState';
 
 
- function Products(props:any) {
+function Products(props: any) {
 
-  const [loggedInUser, setLoggedInUser]:any = useRecoilState(loggedInState);
+  const [loggedInUser, setLoggedInUser]: any = useRecoilState(loggedInState);
 
-  const [item, setItem]:any = useRecoilState(itemState)
+  const [item, setItem]: any = useRecoilState(itemState)
 
+  const isAdminUser: boolean = loggedInUser.role == "admin" ? true : false
 
+  const isAdminPage: boolean = props.page == "admin" ? true : false
 
-  //const userCtxConsumer:any = useContext(userCtx)
-
- // const [user, setUser]:any = useState({}) 
-/* 
-console.log(userCtxConsumer)
-
-const user = userCtxConsumer
-
-//setUser(userCtxConsumer)
-
-
-/*   userCtxConsumer.then( (resolve1:any) =>{
-  
-    setUser(resolve1)
-
-  }) */ 
-
-
-  const isAdminUser:boolean = loggedInUser.role =="admin" ? true : false
-
-  const isAdminPage:boolean = props.page =="admin" ? true : false
-
-  const isAdmin:boolean = isAdminUser && isAdminPage  ? true : false
+  const isAdmin: boolean = isAdminUser && isAdminPage ? true : false
 
 
 
-  //const [isAdmin, setiAdmin]:boolean  = useState(false)
 
   const [name, setName] = useState('')
 
@@ -67,9 +46,8 @@ const user = userCtxConsumer
 
   const productClass = new ProductClass
 
-  //let products: []
 
-  const none:any = {display:"block"}
+  const none: any = { display: "block" }
 
   async function initProductsClass() {
 
@@ -95,7 +73,28 @@ const user = userCtxConsumer
 
   useEffect(() => {
 
-   setItems((items:any) => [...items, item])
+    console.log(item)
+    let itemsUpdate = []
+    let findTheItem = false
+
+    itemsUpdate = items.map((el: any) => {
+      if (el.namn == item.namn) {
+        findTheItem = true
+        return item
+      }
+      return el
+    }
+    )
+
+    if (!findTheItem) {
+      itemsUpdate = [...items, item]
+    }
+
+    console.log("Items list Update:", itemsUpdate)
+
+
+    setItems(itemsUpdate
+    )
 
   }, [item])
 
@@ -112,7 +111,7 @@ const user = userCtxConsumer
     let result = await productClass.Cart.addToCart(name)
 
     console.log(result)
-    
+
     if (result) {
 
       const basketNum: any = await productClass.Cart.countItems()
@@ -142,47 +141,47 @@ const user = userCtxConsumer
     })
     setItems(filteredItems)
   }
-function editItem(e:any, item:string){
+  function editItem(e: any, item: string) {
 
-  e.preventDefault()
+    e.preventDefault()
 
-  console.log(item)
+    console.log(item)
 
-  const itemForm:any =<ItemForm item={item}/>
+    const itemForm: any = <ItemForm item={item} />
 
-  setForm(itemForm)
-
-}
-
-function addItem(e:any){
-
-  e.preventDefault()
-
-
-  const itemForm:any =<ItemForm/>
-
-  setForm(itemForm)
-
-}
-async function deleteItem(e:any, name:string){
-
-  e.preventDefault()
-
-  console.log(name)
-
-  const result = await productClass.deleteItem(name)
-
-  console.log(result)
-
-  if(result.name != "Error"){
-
-    const updatedItems = items.filter( (el:any) => { return el.namn != name })
-
-    setItems(updatedItems)
-    
+    setForm(itemForm)
 
   }
-}
+
+  function addItem(e: any) {
+
+    e.preventDefault()
+
+
+    const itemForm: any = <ItemForm />
+
+    setForm(itemForm)
+
+  }
+  async function deleteItem(e: any, name: string) {
+
+    e.preventDefault()
+
+    console.log(name)
+
+    const result = await productClass.deleteItem(name)
+
+    console.log(result)
+
+    if (result.name != "Error") {
+
+      const updatedItems = items.filter((el: any) => { return el.namn != name })
+
+      setItems(updatedItems)
+
+
+    }
+  }
 
   return (
 
@@ -209,20 +208,20 @@ async function deleteItem(e:any, name:string){
           </Button>
         </Form>
 
-        {isAdmin && <a href="#" onClick={(e)=>addItem(e)} >Add</a>}
+        {isAdmin && <a href="#" data-testid="add" onClick={(e) => addItem(e)} >Add</a>}
       </section>
-      {message &&  <b data-testid="message" data-value={message}></b>}
+      {message && <b data-testid="message" data-value={message}></b>}
       <section id={!isAdmin ? "products" : "admin"}>
         {items.length > 0 && items.map((el: any) => (
           <article key={el.namn}> <div><aside><img src={el.bild} alt="product image" /></aside>
             <p>{el.namn}</p>
             <p>{!isAdmin && "Pris:"}&nbsp;{el.pris}</p>
-            <p>{!isAdmin && "Qty:"}&nbsp;{el.stock}</p>
-            {isAdmin && <p><a href="#" onClick={(e)=>editItem(e, el)} >Edit</a></p>}
-            {isAdmin && <p><a href="#"  onClick={(e)=>deleteItem(e, el.namn)} >Delete</a></p>}
+            <p>{!isAdmin && "Stock Qty:"}&nbsp;{el.stock}</p>
+            {isAdmin && <p><a href="#" data-testid="edit" onClick={(e) => editItem(e, el)} >Edit</a></p>}
+            {isAdmin && <p><a href="#" data-testid="delete" onClick={(e) => deleteItem(e, el.namn)} >Delete</a></p>}
 
           </div>
-          {!isAdmin && <p><button className="addToCart" onClick={ e => addToCart(e, el.namn)} data-testid="1AddToCart"  >Add to cart</button></p>}
+            {!isAdmin && <p><button className="addToCart" onClick={e => addToCart(e, el.namn)} data-testid="1AddToCart"  >Add to cart</button></p>}
           </article>
 
         )
