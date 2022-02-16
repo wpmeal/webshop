@@ -14,7 +14,6 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const [error, setError] = useState("");
-  //const [loggedInUser, setLoggedInUser] = useState({username: null, address:null });
   const [displayForm, setDisplayForm] = useState(false);
 
   const [loggedInUser, setLoggedInUser]:any = useRecoilState(loggedInState);
@@ -36,24 +35,16 @@ export default function Login() {
 
   if(!result.error){
 
-    console.log(result)
+    // console.log(result)
   
     // save token received from backend 
     await userClass.saveToken(result)
 
      setDisplayForm(false)
 
-     //userCtxConsumer.username =  result.username
-     //userCtxConsumer.role =  result.role
-
-    // setLoggedInUser2(result)
  
 
      setLoggedInUser(result)
-
-    //if(userCtxConsumer.role == "admin"){
-    //  window.location.reload()
-    //}
 
 
  
@@ -65,11 +56,10 @@ export default function Login() {
   }
   const getLoggedInUser = () => {
 
-    //try{
 
    const user:any = userClass.getLoggedInUser()
 
-   console.log(user)
+   // console.log(user)
 
    if(user.username){
 
@@ -82,13 +72,13 @@ export default function Login() {
   
 
 
-   // }catch(e:any){
    }else {
 
       setDisplayForm(true)
 
+      setLoggedInUser({})
 
-    //}
+
   }
   }
   useEffect(  () => {

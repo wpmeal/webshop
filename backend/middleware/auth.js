@@ -26,7 +26,7 @@ const jwt = require('jsonwebtoken');
     response.status(401).
     json({
       "error": "tokenVerifyError",
-      "message": "Permission Denied!"
+      "message": "Permission Denied! Try to login again!"
        });
   }
 }

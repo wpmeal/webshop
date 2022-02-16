@@ -55,7 +55,7 @@ function Products(props: any) {
 
     const cartItems = await productClass.Cart.countItems()
 
-    console.log(cartItems)
+    // console.log(cartItems)
 
     setBasketNum(cartItems)
 
@@ -73,7 +73,7 @@ function Products(props: any) {
 
   useEffect(() => {
 
-    console.log(item)
+    // console.log(item)
     let itemsUpdate = []
     let findTheItem = false
 
@@ -90,7 +90,7 @@ function Products(props: any) {
       itemsUpdate = [...items, item]
     }
 
-    console.log("Items list Update:", itemsUpdate)
+    // console.log("Items list Update:", itemsUpdate)
 
 
     setItems(itemsUpdate
@@ -106,11 +106,11 @@ function Products(props: any) {
 
     e.preventDefault()
 
-    console.log("addToCart clicked")
+    // console.log("addToCart clicked")
 
     let result = await productClass.Cart.addToCart(name)
 
-    console.log(result)
+    // console.log(result)
 
     if (result) {
 
@@ -127,7 +127,7 @@ function Products(props: any) {
 
   async function handleSubmit(event: any) {
 
-    console.log(products)
+    // console.log(products)
 
     event.preventDefault()
     var myPattern = new RegExp('(\\w*' + name + '\\w*)', 'gi');
@@ -145,7 +145,7 @@ function Products(props: any) {
 
     e.preventDefault()
 
-    console.log(item)
+    // console.log(item)
 
     const itemForm: any = <ItemForm item={item} />
 
@@ -167,11 +167,11 @@ function Products(props: any) {
 
     e.preventDefault()
 
-    console.log(name)
+    // console.log(name)
 
     const result = await productClass.deleteItem(name)
 
-    console.log(result)
+    // console.log(result)
 
     if (result.name != "Error") {
 
@@ -212,8 +212,9 @@ function Products(props: any) {
       </section>
       {message && <b data-testid="message" data-value={message}></b>}
       <section id={!isAdmin ? "products" : "admin"}>
-        {items.length > 0 && items.map((el: any) => (
-          <article key={el.namn}> <div><aside><img src={el.bild} alt="product image" /></aside>
+        {items.length > 0 && items.map((el: any, i:any) => (
+          <article key={i}> 
+            <div key={"details"}><aside><img src={el.bild} alt="product image" /></aside>
             <p>{el.namn}</p>
             <p>{!isAdmin && "Pris:"}&nbsp;{el.pris}</p>
             <p>{!isAdmin && "Stock Qty:"}&nbsp;{el.stock}</p>
@@ -221,7 +222,7 @@ function Products(props: any) {
             {isAdmin && <p><a href="#" data-testid="delete" onClick={(e) => deleteItem(e, el.namn)} >Delete</a></p>}
 
           </div>
-            {!isAdmin && <p><button className="addToCart" onClick={e => addToCart(e, el.namn)} data-testid="1AddToCart"  >Add to cart</button></p>}
+            {!isAdmin && <p key={"addToCart"}><button className="addToCart" onClick={e => addToCart(e, el.namn)} data-testid="1AddToCart"  >Add to cart</button></p>}
           </article>
 
         )

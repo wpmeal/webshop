@@ -6,15 +6,12 @@ export class CartClass {
 
 
     apiHandler: ApiHandler;
-   // items :Array<any> | undefined
 
     constructor() {
 
        this.apiHandler = new ApiHandler()
         
-       //const  [this.items, setItems]   = useState([])
 
-     //  this.state =  [this.items, setItems]
        
 
 
@@ -43,13 +40,11 @@ export class CartClass {
         // execute the call
         var val = await this.apiHandler.coonectTopApi();
 
-        console.log("addToCart")
+        // // // console.log("addToCart")
 
 
-        // handle the promsie of the response
-     //  await res.then(async (val) => {  // if the promise is fullfilled 
 
-            console.log(val); // log the reponse data  
+            // // console.log(val); // log the reponse data  
 
      
 
@@ -90,25 +85,24 @@ export class CartClass {
           // execute the call
           var val = await this.apiHandler.coonectTopApi();
   
-          // handle the promsie of the response
-         // res.then((val) => {  // if the promise is fullfilled 
   
-              console.log(val); // log the reponse data  
+  
+              // // console.log(val); // log the reponse data  
   
   
               // if error get received, display it to client
               if (val.name || val.message) {
-                console.log("not success!")
+                // // console.log("not success!")
 
                   alert(val.message);
   
                   // if we have a valid response with the item added then update the html buttons
               } else if (val) {
 
-                console.log("success!")
+                // // console.log("success!")
                  result = true 
 
-                console.log(val)
+                // // console.log(val)
                 // update total price
       
               }
@@ -148,17 +142,7 @@ export class CartClass {
     Get items of varukorg from backend
    */
     getVarokurgItems = async () => {
- /*        // setup required settings to our api call
-        this.apiHandler.fetchInfo.method = "GET";
-        this.apiHandler.fetchInfo.endpoint = "varukorg";
-        this.apiHandler.fetchInfo.paramName = "";
-        this.apiHandler.fetchInfo.paramValue = "";
-        this.apiHandler.fetchInfo.page = "shopping-cart";
 
-        // const token = AuthUser.getToken()
-
-     
- */   
       const header = {
             //    'Authorization': "Bearer "+token,
             'Content-Type': 'application/json'
@@ -173,7 +157,7 @@ export class CartClass {
         // handle the promsie of the response
         //res.then((val) => {
 
-        console.log(val);
+        // // console.log(val);
 
         // if error get received, display it to client
         if (val.name || val.message) {
@@ -184,7 +168,7 @@ export class CartClass {
 
             // render the product items to dom
 
-            console.log(val)
+            // // console.log(val)
          
             return val
 
@@ -193,59 +177,6 @@ export class CartClass {
         // });
     }
 
-
-    // a method to render the array data reponse witch as  html objects
-
-    renderItem = async (Data: any = [], refresh = true) => {
-
-/*         let output: any = []
-
-        // clean the dom
-      //
-        // check if we have en empty data items 
-       // if (Data.length == 0) {
-       ////     document.querySelector("main")!.innerHTML = '<b>No Products Found!</b>';
-       // }
-
-        // otherwise loop through our data array 
-       // else
-         Data.forEach((el: any) => {
-
-            // console.log(el)
-
-
-            // set up default values for buttons: add to cart/ remove from cart
-            var addToCartBtn = "none";
-            var removeFromCartBtn = "block";
-
-
-
-            // check if item is in varokurg or we are rendering varokurg items
-            // if yes shows a remove From Cart button otherwise hide it
-            removeFromCartBtn = el.productInVarukorg == 1 ||
-                el.productInVarukorg == undefined ?
-                "block" : "none";
-
-            // check if item is in varokurg or we are rendering varokurg items
-            // if yes shows a add to Cart button otherwise hide it
-            addToCartBtn = el.productInVarukorg == 1 ||
-                el.productInVarukorg == undefined ?
-                "none" : "block"; 
-
-            // render the buttons
-
-            //var addToCartTag = <p><button className="addToCart" onClick={e => this.addToCart(el.namn)}    >Add to cart</button></p>;
-
-       
-
-            //output.push(innerHtml)
-        })
-
-
-      //  console.log(output)
-
-        return output */
-    }
 
     changeItemQty = async (e:any, namn: any, qty: any) => {
 
@@ -263,13 +194,6 @@ export class CartClass {
     // Count items in cart
     countItems = async () => {
 
-/*         // setup required settings to our api call
-        this.apiHandler.fetchInfo.method = "GET";
-        this.apiHandler.fetchInfo.endpoint = "countCartItems";
-        this.apiHandler.fetchInfo.paramName = "";
-        this.apiHandler.fetchInfo.paramValue = "";
-
-        // const token = AuthUser.getToken() */
 
         const header = {
             //    'Authorization': "Bearer "+token,

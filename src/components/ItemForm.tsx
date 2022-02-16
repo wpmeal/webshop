@@ -11,7 +11,7 @@ import { itemState } from "../atoms/ItemState";
 export default function ItemForm(props: any) {
 
 
-  console.log(props)
+  // console.log(props)
 
   const [name, setName] = useState("");
   const [pris, setPris] = useState("");
@@ -26,7 +26,7 @@ export default function ItemForm(props: any) {
 
   const productClass = new ProductClass()
 
-  const [item, setItem]:any = useRecoilState(itemState)
+  const [item, setItem]: any = useRecoilState(itemState)
 
 
   function validateForm() {
@@ -35,23 +35,25 @@ export default function ItemForm(props: any) {
 
   async function handleSubmit(event: any) {
     event.preventDefault();
-
-    const result = await productClass.updateItem(name, pris, bild, stock)
-
-
-    if (!result.error) {
-
-      console.log(result)
-     // window.location.reload();
-
-     setItem(result)
-     
+    try {
+      const result = await productClass.updateItem(name, pris, bild, stock)
 
 
-    } else { // otherwise error occurs, display it!!
+      if (!result.error) {
 
-      setError(result.message)
+        // console.log(result)
 
+        setItem(result)
+
+
+
+      } else { // otherwise error occurs, display it!!
+
+        setError(result.message)
+
+      }
+    } catch (e:any) {
+      setError(e.message)
     }
   }
 

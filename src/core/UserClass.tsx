@@ -18,17 +18,9 @@ export default class UserClass {
   // save login token as session item  
   saveToken = (user:any) => {
 
-    //return new Promise((resolve, reject) => {
-
-   //   sessionStorage.setItem('auth', user.token);
        let userStr= JSON.stringify(user)
 
        sessionStorage.setItem('user', userStr);
-
-
-      //resolve('Done');
-
-   // });
 
   }
 
@@ -52,9 +44,8 @@ export default class UserClass {
   }
 
   // delete token from session storage
-  deleteToken = () => {
+  static deleteToken = () => {
 
-   // sessionStorage.removeItem('auth');
 
     sessionStorage.removeItem('user');
 
@@ -74,9 +65,6 @@ export default class UserClass {
       "password": password
     };
 
-    // set connections settings 
-  //  this.initConnection.fetchInfo.method = 'POST';
-    //this.initConnection.fetchInfo.endpoint = 'login';
     const headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
@@ -88,7 +76,7 @@ export default class UserClass {
     const data = await this.initConnection.coonectTopApi()
 
     // log response data
-    console.log(data);
+    // console.log(data);
 
     // return response data 
     return data;

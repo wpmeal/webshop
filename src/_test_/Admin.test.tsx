@@ -86,7 +86,6 @@ describe('Test Admin Panel Page', () => {
         const button = screen.getByTestId('loginBtn')
 
 
-        // fetch.mockImplementation(() => Promise.resolve(res))
 
         const mockValue: any = {
             json: jest.fn().mockResolvedValue(res2)
@@ -108,7 +107,6 @@ describe('Test Admin Panel Page', () => {
         expect(res_username).toBeInTheDocument();
         expect(address).toBeInTheDocument();
 
-       // expect(onChange).toHaveBeenCalledTimes(2);
 
 
 
@@ -341,7 +339,6 @@ it("Delete an item", async () => {
     bild: "/images/annnas.png",
     stock: 199
 }
-   // jest.restoreAllMocks();
 
     const mockValue: any = {
       json: jest.fn().mockResolvedValue(res3)

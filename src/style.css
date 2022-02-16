@@ -83,7 +83,9 @@ margin: 0;
 #shopping-cart p:last-child{
     padding: 0 10%;
 }
-
+#shopping-cart  img{
+    width:auto
+}
   
 
     .Login > form {

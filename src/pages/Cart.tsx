@@ -11,6 +11,9 @@ export default function Cart() {
               <header>
              <Link to="/">Home</Link>
 
+             <Link to="/Admin">Admin Panel</Link>
+
+
             <h2> Varukorg Items  </h2>
             <Login />
 

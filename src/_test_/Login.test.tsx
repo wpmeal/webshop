@@ -5,9 +5,6 @@ import userEvent from "@testing-library/user-event"
 import Login from '../components/Login';
 import { RecoilRoot } from 'recoil';
 
-//import { mockSessionStorage } from "../../utils/mockSessionStorage"
-
-//const { getItemMock, setItemMock } = mockSessionStorage();
 
 describe('Test Login Component', () => {
 

@@ -23,7 +23,7 @@ export default function CartItems() {
     varoItems.map((el: any) => {
       let a = parseInt(el.pris) * parseInt(el.qty)
       totalPrice1 += a
-      console.log(totalPrice1)
+      // console.log(totalPrice1)
       //    return sum
     })
 
@@ -56,6 +56,9 @@ export default function CartItems() {
 
     e.preventDefault()
 
+    setError(null)
+
+
     const items = await cartClass.removeFromCart(name)
 
     const total = calTotalPrice(items)
@@ -64,7 +67,7 @@ export default function CartItems() {
 
     setItems(items)
 
-    //  console.log(items)
+    //  // console.log(items)
 
     //setItems(items)
 
@@ -76,10 +79,12 @@ export default function CartItems() {
 
     e.preventDefault()
 
+    setError(null)
+
+
     const result: any = await cartClass.changeItemQty(e, name, e.target.value)
 
     if (result) {
-      setError(null)
 
       setRefresh(true)
 
@@ -94,15 +99,16 @@ export default function CartItems() {
 
   return (
     <> <b data-testid="error">{error}</b>
-    {items.length > 0 && items.map((el: any) => (
-      <article><p><img width="50px" height="50px" src={el.bild} /></p>
-        <p>{el.namn}</p>
-        <p>{el.pris}</p>
+    {items.length > 0 && items.map((el: any, i:any) => (
+      <article key={i}>
+        <p key={"bild"}><img width="50px" height="50px" src={el.bild} /></p>
+        <p key={"namn"}>{el.namn}</p>
+        <p key={"pris"}>{el.pris}</p>
 
-        <p><input name="changeItemQty" data-testid="qty" onBlur={e => changeItemQty(e, el.namn)} defaultValue={el.qty}/></p>
+        <p key={"qty"}><input name="changeItemQty" data-testid="qty" onBlur={e => changeItemQty(e, el.namn)} defaultValue={el.qty}/></p>
 
 
-        <p><button className="removeFromCart" data-testid="removeCartItem"  onClick={e => removeFrmCart(e, el.namn)}    >Remove from cart</button></p>
+        <p key={"remove"}><button className="removeFromCart" data-testid="removeCartItem"  onClick={e => removeFrmCart(e, el.namn)}    >Remove from cart</button></p>
       </article>
 
     )

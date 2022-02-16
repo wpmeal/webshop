@@ -1,12 +1,5 @@
-/*   
-* API Varukorg uppgift  
-* #NodeJs #LowDB #Json #RestApi #JS
-* Coded By Omar Mahrous``
-* Copyright © April 2021
-*
-*/
-
-//import AuthUser from "./authUserClass";
+import UserClass from "./UserClass";
+import Redirect  from 'react-router'
 
 // a class to handle the api
 export default class ApiHandler {
@@ -94,23 +87,22 @@ export default class ApiHandler {
         }
 
 
-        //  console.log(init)   
-
-        // exectute the connection to backedn api 
-
-      //  try {
-
             const res = await fetch(
                 url,
                 init
             );
+
+            const result  =  await res.json();
+
+            if(result.error == "tokenVerifyError" ){
+
+                 UserClass.deleteToken()
+                 window.location.assign("/")
+            }
             // format the reponse as json
-            return await res.json();
+            return result
 
 
-      //  } catch (e) {
-      //      console.log(e)
-      //  }
 
     }
 
@@ -118,8 +110,6 @@ export default class ApiHandler {
 
 }
 
-// Initialize our class
-var productsObj = new ApiHandler();
 
 
 
