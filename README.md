@@ -24,21 +24,21 @@ As a Logged Admin, he/she:
 # App Demo link:
 https://webshopgrocery1.herokuapp.com/
 # Starting the app:
-=> Navigate to backend => then run the cmds "npm i" => then "node server". (The server wil serve the frontend from "build" folder)
-=> To run the testing units => cmd "npm run test" at the main directory of project.
+- Navigate to backend => then run the cmds "npm i" => then "node server". (The server wil serve the frontend from "build" folder).
+- To run the testing units => cmd "npm run test" at the main directory of project.
 
 =To login as admin
-username: omar
+username: omar /
 password: pwd456
 
  =To login as user
-username: ada
+username: ada /
 password: pwd123
 
 
 Technologies Involved:
-Frontend: React/Recoil
-Backend: Node/Lowdb
+- Frontend: React/Recoil
+- Backend: Node/Lowdb
 
 
 - Developed By
