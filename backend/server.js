@@ -21,7 +21,7 @@ const app = express();
 app.use(express.json());
 
 //app.use(express.static(__dirname)+"../build");
-//app.use(express.static("build"));
+app.use(express.static("build"));
 
 
 // open database json file or create a one if it doesn't exist.
@@ -55,12 +55,6 @@ app.get('/api/products/', (request, response) => {
 
     var data = [];
     products.forEach(element => {
-
-      // find if product exists in varokurg
-     // const getProductInVarukorg = database.get("varukorg").find({ namn: element.namn }).value();
-
-      //  a new property to the json reponse that determine if product exists in varokurg or not
-      // const productInVarukorg = getProductInVarukorg == undefined ? 0 : 1;
 
       // add it to each product obj
       const el = {
@@ -146,7 +140,7 @@ app.post('/api/changeCartQty/', user, (request, response) => {
 
     //console.log(product)
     // Check if the product exist in DB
-    const productInDB = database.get("products").find({ namn: product.namn}).value();
+    const productInDB = database.get("products").find({ namn: product.namn }).value();
     if (!productInDB)
       // throw error if not
       throw new Error("Produktet finns inte!");
@@ -156,7 +150,7 @@ app.post('/api/changeCartQty/', user, (request, response) => {
       throw new Error("Out Of Stock!");
 
     // get the  product from varukorg 
-    const productInVarukorg = database.get("varukorg").find({ namn: product.namn, user_Id : user_id }).value();
+    const productInVarukorg = database.get("varukorg").find({ namn: product.namn, user_Id: user_id }).value();
 
     const updatedProduct = changeQtyCart(productInVarukorg, product.qty, user_id)
 
@@ -214,7 +208,7 @@ function changeQtyCart(product, qty, user_id) {
 
   }
 
-  const updatedProduct = database.get("varukorg").find({ namn: product.namn, user_Id : user_id }).assign({
+  const updatedProduct = database.get("varukorg").find({ namn: product.namn, user_Id: user_id }).assign({
 
     qty: qty
 
@@ -235,7 +229,7 @@ function changeQtyCart(product, qty, user_id) {
 * Base /api/ 
 */
 
-app.post("/api/varukorg/",user, (request, response) => {
+app.post("/api/varukorg/", user, (request, response) => {
 
   try {
     // read the request body that contains the new product value
@@ -276,7 +270,7 @@ app.post("/api/varukorg/",user, (request, response) => {
 
     }).write()
 
-      : database.get("varukorg").find({ namn: productInVarukorg.namn,  user_Id:user_id}).assign({
+      : database.get("varukorg").find({ namn: productInVarukorg.namn, user_Id: user_id }).assign({
 
         qty: ++productInVarukorg.qty
 
@@ -312,7 +306,7 @@ app.post("/api/varukorg/",user, (request, response) => {
 * Base /api/ 
 */
 
-app.delete("/api/varukorg/name/:name", user,(request, response) => {
+app.delete("/api/varukorg/name/:name", user, (request, response) => {
   console.log(request.params.name);
   //const name = request.params.name;
 
@@ -396,7 +390,7 @@ app.delete("/api/deleteItem/name/:name", user, (request, response) => {
     // if(result == 0)   
 
     // remove first the item in varukorg
-    database.get("varukorg").remove({ namn: name}).write();
+    database.get("varukorg").remove({ namn: name }).write();
 
     database.get("products").remove({ namn: name }).write();
 
@@ -420,7 +414,7 @@ app.delete("/api/deleteItem/name/:name", user, (request, response) => {
 * Endpoint: /varukorg/
 * Base /api/ 
 */
-app.get("/api/varukorg/",user, (request, response) => {
+app.get("/api/varukorg/", user, (request, response) => {
 
   try {
 
@@ -583,7 +577,7 @@ app.get('/api/countCartItems/', user, (request, response) => {
 
     const user_id = request.userId
     // get products array from db 
-    const items = database.get("varukorg").filter({user_Id:user_id}).value();
+    const items = database.get("varukorg").filter({ user_Id: user_id }).value();
     console.log(items);
 
     // throw an error when it's not there!

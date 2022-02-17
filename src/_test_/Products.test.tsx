@@ -124,55 +124,7 @@ describe('Test Product Component', () => {
 
     })
 
-    it("Login a user in order to update Recoil state", async () => {
 
-
-        const username = screen.getByLabelText(/Email/i)
-
-        const password = screen.getByLabelText(/password/i)
-
-        expect(username).toBeInTheDocument()
-
-        expect(password).toBeInTheDocument()
-
-
-        userEvent.type(username, "omar")
-
-        userEvent.type(password, "pwd456")
-
-
-        expect(username).toHaveValue('omar')
-
-        expect(password).toHaveValue('pwd456')
-
-        const button = screen.getByTestId('loginBtn')
-
-
-
-        const mockValue: any = {
-            json: jest.fn().mockResolvedValue(res3)
-        }
-
-        jest.spyOn(global, 'fetch').mockResolvedValue(mockValue)
-
-        await act(async () => {
-
-
-            userEvent.click(button)
-
-
-        })
-
-        const res_username = screen.getByText(/omar/i);
-        const address = screen.getByText(/Kastvindsgatan 2C lgh 2343, 41714, Gothenburg/i);
-
-        expect(res_username).toBeInTheDocument();
-        expect(address).toBeInTheDocument();
-
-
-
-
-    });
 
     it("set cart items num to basket icon", async () => {
 
@@ -224,7 +176,7 @@ describe('Test Product Component', () => {
 
         expect(spy).toHaveBeenCalled();
 
-        expect(spy).toBeCalledTimes(4);
+        expect(spy).toBeCalledTimes(3);
 
 
         const message = screen.getByTestId("message").getAttribute("data-value")
