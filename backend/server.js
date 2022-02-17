@@ -21,6 +21,7 @@ const app = express();
 app.use(express.json());
 
 //app.use(express.static(__dirname)+"../build");
+
 app.use(express.static("build"));
 
 
@@ -29,7 +30,7 @@ const adapter = new FileSync('products.json');
 // calling lowdb with a product.json as the resource file
 const database = lowdb(adapter);
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const jwt = require('jsonwebtoken');
 
@@ -768,8 +769,10 @@ app.post("/api/updateItem/", user, async (request, response) => {
 
 })
 // start a new server on port:8000
-app.listen(8000, () => {
+ app.listen(8000, () => {
   console.log('Server started');
   // write an empty Varukorg array to json file
   database.defaults({ varukorg: [] }).write();
-});
+}); 
+
+//app.listen(process.env.PORT || 5000, () => console.log('Server started 881' ))

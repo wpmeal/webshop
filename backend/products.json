@@ -37,7 +37,7 @@
       "pris": "501",
       "bild": "/images/vattenmellon.jpg",
       "stock": "70",
-      "qty": 2,
+      "qty": 3,
       "user_Id": "hFGlJMzZTKbBuPJYTAsJH"
     },
     {
@@ -61,8 +61,16 @@
       "pris": "33",
       "bild": "/images/gurka.jpg",
       "stock": "56",
-      "qty": 1,
+      "qty": "2",
       "user_Id": "hFGlJMzZTKbBuPJYTAsJH"
+    },
+    {
+      "namn": "Vattenmelon",
+      "pris": "501",
+      "bild": "/images/vattenmellon.jpg",
+      "stock": "7099",
+      "qty": 1,
+      "user_Id": "_DW-mZnKlSyhlILuRn-YY"
     }
   ],
   "staff": [
