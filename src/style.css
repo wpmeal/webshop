@@ -1,0 +1,163 @@
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100%;
+    background: #fbfbfb;
+    align-items: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.3rem;
+    color:rgb(66, 65, 65);
+
+}
+
+/* container to the whole page */
+.wrapper {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(1, 1fr);
+}
+
+header {
+   /* padding: 3%; */
+    background: #adcee6;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 1.5% 3%;
+
+}
+/*
+.shopping-cart header{
+    display: inline-flex;
+
+} */
+
+main{
+    padding: 1.5%;
+}
+
+main section {
+    padding: 1.5%;
+
+}
+main #products {
+    grid-column: auto / span 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+}
+
+/*
+Main contents of the page
+*/
+article {
+    grid-column: auto / span 1;
+    padding: 0 5% 5% 0;
+
+}
+
+img {
+    width: 100%;
+}
+p{
+    margin: 1%;
+}
+#shopping-cart{
+    padding:3% 10% 3% 30%;
+}
+header h2{
+margin: 0;
+}
+#shopping-cart > article {
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+
+}
+#shopping-cart > article > * {
+    flex-direction: row;
+    align-items: flex-start;
+}
+#shopping-cart .item-name{
+    width: 30%;
+}
+#shopping-cart .item-price{
+    width: 20%;
+}
+#shopping-cart aside {
+    width:5%;
+}
+#shopping-cart p:last-child{
+    padding: 0 10%;
+}
+#shopping-cart  img{
+    width:auto
+}
+  
+
+    .Login > form {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .Login > form > *{
+        grid-column: auto /span 1;
+        display: inline-flex;
+        
+
+    }
+
+ 
+    .userInfo  > * {
+        display: block;
+    }
+
+    #lblCartCount {
+        font-size: 12px;
+        background: #ff0000;
+        color: #fff;
+        padding: 0 5px;
+        vertical-align: top;
+        margin-left: -10px;
+    }
+
+
+    main #admin {
+        display:grid;
+        grid-template-columns: repeat(1, 1fr);
+
+
+    }
+
+    #admin > article {
+        grid-column: auto / span 1;
+        padding: 0 5% 5% 0;
+    
+    }
+
+    #admin img {
+     width:50px;
+     height:50px;
+    
+    }
+
+    #admin > article > div{
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        width:100%;
+        
+    }
+
+    .basket{
+        float:right
+    }
+
+    .AddItemForm > form{
+       display: inline-flex;
+    }
+    .AddItemForm > form > div{
+       padding:  0 0 1% 0;
+    }
+
+input[name="changeItemQty"]{
+    width: 15%;
+    padding: 5%;
+}

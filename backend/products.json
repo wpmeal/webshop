@@ -1,0 +1,92 @@
+{
+  "products": [
+    {
+      "namn": "Vattenmelon",
+      "pris": "501",
+      "bild": "/images/vattenmellon.jpg",
+      "stock": "7099"
+    },
+    {
+      "namn": "Broccoli",
+      "pris": "51",
+      "stock": "35",
+      "bild": "https://solidstarts.com/wp-content/uploads/Broccoli_edited-scaled.jpg"
+    },
+    {
+      "namn": "Gurka",
+      "pris": "33",
+      "stock": "56",
+      "bild": "/images/gurka.jpg"
+    },
+    {
+      "namn": "Banan",
+      "pris": "991",
+      "stock": "888",
+      "bild": "/images/banan.jpg"
+    },
+    {
+      "namn": "Apelsin",
+      "pris": "11",
+      "stock": "46",
+      "bild": "/images/apelsin.jpg"
+    }
+  ],
+  "varukorg": [
+    {
+      "namn": "Vattenmelon",
+      "pris": "501",
+      "bild": "/images/vattenmellon.jpg",
+      "stock": "70",
+      "qty": 3,
+      "user_Id": "hFGlJMzZTKbBuPJYTAsJH"
+    },
+    {
+      "namn": "Broccoli",
+      "pris": "51.88",
+      "bild": "https://solidstarts.com/wp-content/uploads/Broccoli_edited-scaled.jpg",
+      "stock": "35",
+      "qty": 1,
+      "user_Id": "_DW-mZnKlSyhlILuRn-YY"
+    },
+    {
+      "namn": "Gurka",
+      "pris": "33",
+      "bild": "/images/gurka.jpg",
+      "stock": "56",
+      "qty": 2,
+      "user_Id": "_DW-mZnKlSyhlILuRn-YY"
+    },
+    {
+      "namn": "Gurka",
+      "pris": "33",
+      "bild": "/images/gurka.jpg",
+      "stock": "56",
+      "qty": "2",
+      "user_Id": "hFGlJMzZTKbBuPJYTAsJH"
+    },
+    {
+      "namn": "Vattenmelon",
+      "pris": "501",
+      "bild": "/images/vattenmellon.jpg",
+      "stock": "7099",
+      "qty": 1,
+      "user_Id": "_DW-mZnKlSyhlILuRn-YY"
+    }
+  ],
+  "staff": [
+    {
+      "username": "ada",
+      "password": "$2b$10$zAaxd5Jk9xa0ARtnygdI5ue3Z/zmHNbwPCBkrP79.rLtuuybNCf5e",
+      "id": "hFGlJMzZTKbBuPJYTAsJH",
+      "address": "YellowStone valley, street 101, zipcode 4564645, Mi, USA",
+      "role": "user"
+    },
+    {
+      "username": "omar",
+      "password": "$2b$10$WjJqHWx1ZukAu7yntZWXPO9PfSl1ZAExZDoxGsaLLAJoPWaOKhMKm",
+      "id": "_DW-mZnKlSyhlILuRn-YY",
+      "address": "Kastvindsgatan 2C lgh 2343, 41714, Gothenburg",
+      "role": "admin"
+    }
+  ]
+}
