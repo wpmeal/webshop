@@ -1,13 +1,17 @@
 import UserClass from "./UserClass";
-import Redirect  from 'react-router'
+import Redirect from 'react-router'
 
 // a class to handle the api
 export default class ApiHandler {
     fetchInfo: { baseUrl: string; method: string; endpoint: string; headers: { 'Content-Type': string; 'Accept'?: string; 'Authorization'?: string }, paramName: string; paramValue: string; requestBody: any; page: string; };
     //  authUser: AuthUser;
 
+    token = null
+
     // let's construct it by setting default values to our api
     constructor() {
+
+
         // default values 
         this.fetchInfo = {
             baseUrl: '/api',
@@ -15,7 +19,6 @@ export default class ApiHandler {
             endpoint: "products",
             headers: {
                 'Content-Type': 'application/json'
-
             },
             paramName: "",
             paramValue: "",
@@ -23,6 +26,14 @@ export default class ApiHandler {
             page: ""
         };
 
+        let token = UserClass.getToken()
+        if (token) {
+            this.fetchInfo.headers = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        }
 
 
     }
@@ -53,8 +64,6 @@ export default class ApiHandler {
         this.fetchInfo.endpoint = endpoint;
         this.fetchInfo.paramName = paramName;
         this.fetchInfo.paramValue = paramValue;
-        this.fetchInfo.headers = headers ? headers : this.fetchInfo.headers
-
         this.fetchInfo.requestBody = requestBody
 
     }
@@ -87,21 +96,14 @@ export default class ApiHandler {
         }
 
 
-            const res = await fetch(
-                url,
-                init
-            );
+        const res = await fetch(
+            url,
+            init
+        );
 
-            const result  =  await res.json();
+        const result = await res.json();
 
-            if(result.error == "tokenVerifyError" ){
-
-                 UserClass.deleteToken()
-                 
-                 window.location.assign("/")
-            }
-            // format the reponse as json
-            return result
+        return result
 
 
 

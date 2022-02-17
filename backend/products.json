@@ -4,17 +4,11 @@
       "namn": "Vattenmelon",
       "pris": "501",
       "bild": "/images/vattenmellon.jpg",
-      "stock": "700"
-    },
-    {
-      "namn": "Potatis",
-      "pris": 17,
-      "bild": "/images/potatis.jpg",
-      "stock": 80
+      "stock": "7099"
     },
     {
       "namn": "Broccoli",
-      "pris": "51.88",
+      "pris": "51",
       "stock": "35",
       "bild": "https://solidstarts.com/wp-content/uploads/Broccoli_edited-scaled.jpg"
     },
@@ -29,6 +23,12 @@
       "pris": "991",
       "stock": "888",
       "bild": "/images/banan.jpg"
+    },
+    {
+      "namn": "Apelsin",
+      "pris": "11",
+      "stock": "46",
+      "bild": "/images/apelsin.jpg"
     }
   ],
   "varukorg": [
@@ -36,8 +36,33 @@
       "namn": "Vattenmelon",
       "pris": "501",
       "bild": "/images/vattenmellon.jpg",
-      "stock": "700",
-      "qty": "1"
+      "stock": "70",
+      "qty": 2,
+      "user_Id": "hFGlJMzZTKbBuPJYTAsJH"
+    },
+    {
+      "namn": "Broccoli",
+      "pris": "51.88",
+      "bild": "https://solidstarts.com/wp-content/uploads/Broccoli_edited-scaled.jpg",
+      "stock": "35",
+      "qty": 1,
+      "user_Id": "hFGlJMzZTKbBuPJYTAsJH"
+    },
+    {
+      "namn": "Broccoli",
+      "pris": "51.88",
+      "bild": "https://solidstarts.com/wp-content/uploads/Broccoli_edited-scaled.jpg",
+      "stock": "35",
+      "qty": 1,
+      "user_Id": "_DW-mZnKlSyhlILuRn-YY"
+    },
+    {
+      "namn": "Gurka",
+      "pris": "33",
+      "bild": "/images/gurka.jpg",
+      "stock": "56",
+      "qty": 2,
+      "user_Id": "_DW-mZnKlSyhlILuRn-YY"
     }
   ],
   "staff": [

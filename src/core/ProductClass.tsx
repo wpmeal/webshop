@@ -26,6 +26,7 @@ export class ProductClass {
     getProdducts = async () => {
 
 
+
         this.Cart.apiHandler.setUpConnection("GET", "products") 
 
         const basketIcon:any =   document.querySelector("#lblCartCount")

@@ -53,11 +53,7 @@ function Products(props: any) {
 
     let products = await productClass.getProdducts();
 
-    const cartItems = await productClass.Cart.countItems()
 
-    // console.log(cartItems)
-
-    setBasketNum(cartItems)
 
     setProducts(products)
 
@@ -97,6 +93,27 @@ function Products(props: any) {
     )
 
   }, [item])
+
+  async function initCountItems() {
+
+    let cartItems = 0
+  //  console.log(loggedInUser)
+
+    if (loggedInUser.username) {
+
+      cartItems = await productClass.Cart.countItems()
+    }
+  //  console.log(cartItems)
+
+    setBasketNum(cartItems)
+
+
+  }
+  useEffect(() => {
+
+    initCountItems()
+
+  }, [loggedInUser])
 
   function validateForm() {
     return name.length >= 0;
@@ -187,7 +204,7 @@ function Products(props: any) {
 
     <>
       {isAdmin && <section>
-      <a className="AddItem" href="#" data-testid="add" onClick={(e) => addItem(e)} >Add Item</a>
+        <a className="AddItem" href="#" data-testid="add" onClick={(e) => addItem(e)} >Add Item</a>
         {form}
       </section>}
       <section>

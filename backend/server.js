@@ -20,7 +20,8 @@ const app = express();
 // Our express app should parse only json request/response  
 app.use(express.json());
 
-//app.use(express.static(__dirname));
+//app.use(express.static(__dirname)+"../build");
+//app.use(express.static("build"));
 
 
 // open database json file or create a one if it doesn't exist.
@@ -56,7 +57,7 @@ app.get('/api/products/', (request, response) => {
     products.forEach(element => {
 
       // find if product exists in varokurg
-      const getProductInVarukorg = database.get("varukorg").find({ namn: element.namn }).value();
+     // const getProductInVarukorg = database.get("varukorg").find({ namn: element.namn }).value();
 
       //  a new property to the json reponse that determine if product exists in varokurg or not
       // const productInVarukorg = getProductInVarukorg == undefined ? 0 : 1;
@@ -124,13 +125,15 @@ function isQtyInStock(stock, qty) {
 }
 
 
-app.post('/api/changeCartQty/', (request, response) => {
+app.post('/api/changeCartQty/', user, (request, response) => {
 
   try {
 
     // catch any error that might happen inside the try 
     // read the request body that contains the new product value
     const product = request.body;
+
+    const user_id = request.userId
 
     if (product.qty <= 0) {
       throw new Error("Invalid Qty value!");
@@ -143,7 +146,7 @@ app.post('/api/changeCartQty/', (request, response) => {
 
     //console.log(product)
     // Check if the product exist in DB
-    const productInDB = database.get("products").find({ namn: product.namn }).value();
+    const productInDB = database.get("products").find({ namn: product.namn}).value();
     if (!productInDB)
       // throw error if not
       throw new Error("Produktet finns inte!");
@@ -153,9 +156,9 @@ app.post('/api/changeCartQty/', (request, response) => {
       throw new Error("Out Of Stock!");
 
     // get the  product from varukorg 
-    const productInVarukorg = database.get("varukorg").find({ namn: product.namn }).value();
+    const productInVarukorg = database.get("varukorg").find({ namn: product.namn, user_Id : user_id }).value();
 
-    const updatedProduct = changeQtyCart(productInVarukorg, product.qty)
+    const updatedProduct = changeQtyCart(productInVarukorg, product.qty, user_id)
 
     response.json(updatedProduct);
 
@@ -203,7 +206,7 @@ function detuctFrmStock(product) {
 }
 
 
-function changeQtyCart(product, qty) {
+function changeQtyCart(product, qty, user_id) {
 
   if (!product) {
 
@@ -211,7 +214,7 @@ function changeQtyCart(product, qty) {
 
   }
 
-  const updatedProduct = database.get("varukorg").find({ namn: product.namn }).assign({
+  const updatedProduct = database.get("varukorg").find({ namn: product.namn, user_Id : user_id }).assign({
 
     qty: qty
 
@@ -232,11 +235,15 @@ function changeQtyCart(product, qty) {
 * Base /api/ 
 */
 
-app.post("/api/varukorg/", (request, response) => {
+app.post("/api/varukorg/",user, (request, response) => {
 
   try {
     // read the request body that contains the new product value
     const product = request.body;
+
+    const user_id = request.userId
+
+    const user = getUserById(user_id)
 
     console.log(product)
     // Check if the product exist in DB
@@ -250,7 +257,7 @@ app.post("/api/varukorg/", (request, response) => {
       throw new Error("Out Of Stock!");
 
     // get the same product if it is already there in varukorg 
-    const productInVarukorg = database.get("varukorg").find({ namn: product.namn }).value();
+    const productInVarukorg = database.get("varukorg").find({ namn: product.namn, user_Id: user_id }).value();
 
     // If not the same product is in varkorgu, then add the requested one and return them all otherwise just return existed products of varukorg
     const addToVarukorg = (!productInVarukorg) ? database.get("varukorg").push({
@@ -263,11 +270,13 @@ app.post("/api/varukorg/", (request, response) => {
 
       stock: productInDB.stock,
 
-      qty: 1
+      qty: 1,
+
+      user_Id: user_id
 
     }).write()
 
-      : database.get("varukorg").find({ namn: productInVarukorg.namn }).assign({
+      : database.get("varukorg").find({ namn: productInVarukorg.namn,  user_Id:user_id}).assign({
 
         qty: ++productInVarukorg.qty
 
@@ -303,7 +312,7 @@ app.post("/api/varukorg/", (request, response) => {
 * Base /api/ 
 */
 
-app.delete("/api/varukorg/name/:name", (request, response) => {
+app.delete("/api/varukorg/name/:name", user,(request, response) => {
   console.log(request.params.name);
   //const name = request.params.name;
 
@@ -312,13 +321,15 @@ app.delete("/api/varukorg/name/:name", (request, response) => {
     // read the name of product that is required to be removed from the request
     const name = request.params.name;
 
+    const user_id = request.userId
+
     //Check if the product exists in db
     const productInDB = database.get("products").find({ namn: name }).value();
     if (!productInDB)
       throw new Error("Produktet finns inte i produktersdatabas!");
 
 
-    const productInCart = database.get("varukorg").find({ namn: name }).value();
+    const productInCart = database.get("varukorg").find({ namn: name, user_Id: user_id }).value();
 
     if (!productInCart)
       throw new Error("Produktet finns inte i cart!");
@@ -328,10 +339,10 @@ app.delete("/api/varukorg/name/:name", (request, response) => {
 
     // delete the product from db 
     // if(result == 0)   
-    database.get("varukorg").remove({ namn: name }).write();
+    database.get("varukorg").remove({ namn: name, user_Id: user_id }).write();
 
     // return a json response with all items of varukorg
-    response.json(database.get("varukorg").write());
+    response.json(database.get("varukorg").filter({ user_Id: user_id }).value());
 
     // catch and throwable error and return a json response about that erro..
   } catch (e) {
@@ -356,11 +367,11 @@ app.delete("/api/deleteItem/name/:name", user, (request, response) => {
   // vonsole.log(request.body)
   try {
 
-    const user_id= request.userId
+    const user_id = request.userId
 
     const user = getUserById(user_id)
 
-    if(user.role != "admin"){
+    if (user.role != "admin") {
       throw new Error("Only users with admin role can delete items")
     }
 
@@ -368,15 +379,15 @@ app.delete("/api/deleteItem/name/:name", user, (request, response) => {
     const name = request.params.name;
 
     //Check if the product exists in db
- /*    const productInDB = database.get("products").find({ namn: name }).value();
-    if (!productInDB)
-      throw new Error("Produktet finns inte i produktersdatabas!");
-
-
-    const productInCart = database.get("varukorg").find({ namn: name }).value();
-
-    if (!productInCart)
-      throw new Error("Produktet finns inte i cart!"); */
+    /*    const productInDB = database.get("products").find({ namn: name }).value();
+       if (!productInDB)
+         throw new Error("Produktet finns inte i produktersdatabas!");
+   
+   
+       const productInCart = database.get("varukorg").find({ namn: name }).value();
+   
+       if (!productInCart)
+         throw new Error("Produktet finns inte i cart!"); */
 
     // let result =  changeQtyCart(productInCart)   
 
@@ -385,11 +396,11 @@ app.delete("/api/deleteItem/name/:name", user, (request, response) => {
     // if(result == 0)   
 
     // remove first the item in varukorg
-      database.get("varukorg").remove({ namn: name }).write();
+    database.get("varukorg").remove({ namn: name}).write();
 
-      database.get("products").remove({ namn: name }).write();
+    database.get("products").remove({ namn: name }).write();
 
-       response.status(202).json(name)
+    response.status(202).json(name)
 
     // return a json response with all items of varukorg
     //response.json(database.get("varukorg").write());
@@ -409,11 +420,15 @@ app.delete("/api/deleteItem/name/:name", user, (request, response) => {
 * Endpoint: /varukorg/
 * Base /api/ 
 */
-app.get("/api/varukorg/", (request, response) => {
+app.get("/api/varukorg/",user, (request, response) => {
 
   try {
 
-    ProductsInVarukorg = database.get("varukorg").value();
+    const user_id = request.userId
+
+    ProductsInVarukorg = database.get("varukorg").filter({ user_Id: user_id }).value();
+
+    console.log(ProductsInVarukorg)
 
     response.json(ProductsInVarukorg);
 
@@ -561,13 +576,15 @@ app.post("/api/login/", async (request, response) => {
 * Endpoint: /products/
 * Base /api/ 
 */
-app.get('/api/countCartItems/', (request, response) => {
+app.get('/api/countCartItems/', user, (request, response) => {
 
   // begin a try so the app doesn't crash when error happens and still response with valid json
   try {
+
+    const user_id = request.userId
     // get products array from db 
-    const items = database.get("varukorg").value();
-    //console.log(products);
+    const items = database.get("varukorg").filter({user_Id:user_id}).value();
+    console.log(items);
 
     // throw an error when it's not there!
     // if (!items)
@@ -604,7 +621,7 @@ function getUserById(user_id) {
     .value();
 
 
-    console.log(user)
+  console.log(user)
 
   if (!user) {
     throw new Error("could not find the user!");
@@ -623,7 +640,7 @@ app.get('/api/loggedInUser/token/:token', user, (request, response) => {
 
     let user_id = request.userId
 
-   const user = getUserById(user_id)
+    const user = getUserById(user_id)
 
     result = {
       "username": user.username,
@@ -659,11 +676,11 @@ app.post("/api/updateItem/", user, async (request, response) => {
 
   try {
 
-    const user_id= request.userId
+    const user_id = request.userId
 
     const user = getUserById(user_id)
 
-    if(user.role != "admin"){
+    if (user.role != "admin") {
       throw new Error("Only users with admin role can create/update items")
     }
 
@@ -729,7 +746,7 @@ app.post("/api/updateItem/", user, async (request, response) => {
 
       if (productInDB.length > 0) {
 
-        result = productInDB[productInDB.length-1]
+        result = productInDB[productInDB.length - 1]
 
       }
       else {

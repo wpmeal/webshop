@@ -10,7 +10,7 @@ export default function Home(props: any) {
                 <h2> Home  </h2>
                 <div>&nbsp;</div>
                 <div>
-                    <Login ></Login>
+                    <Login />
                 </div>
 
             </header>

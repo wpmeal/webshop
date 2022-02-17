@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { loggedInState } from '../atoms/loggedInState';
 import CartClass from '../core/CartClass';
 
 export default function CartItems() {
@@ -7,6 +9,8 @@ export default function CartItems() {
   const [items, setItems]: Array<any> = useState([])
 
   const [refresh, setRefresh]: Array<any> = useState(false)
+
+  const [loggedInUser, setLoggedInUser]: any = useRecoilState(loggedInState);
 
 
   const [totalPrice, setTotalPrice] = useState(0)
@@ -34,22 +38,31 @@ export default function CartItems() {
 
     const varoItems: any = await cartClass.getVarokurgItems()
 
-
+    if(varoItems){
     const total = calTotalPrice(varoItems)
 
     setTotalPrice(total)
 
     setItems(varoItems)
+    }
 
   }
 
   useEffect(() => {
 
+    if(loggedInUser.username){
+
     varokurgItems()
 
     setRefresh(false)
 
-  }, [refresh])
+    setError("")
+    
+    }else {
+     setError("You need to login to see cart items")
+    }
+
+  }, [refresh, loggedInUser])
 
 
   const removeFrmCart = async (e: any, name: string) => {
@@ -115,6 +128,8 @@ export default function CartItems() {
     )
     }
      { items.length > 0 &&  <article><p>Total Price:</p><p>{totalPrice.toString()}</p></article>}
+
+
 
     </>
   )

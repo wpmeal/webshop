@@ -68,8 +68,9 @@ header h2{
 margin: 0;
 }
 #shopping-cart > article {
-    grid-column: auto / span 3;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+
 }
 #shopping-cart > article > * {
     flex-direction: row;

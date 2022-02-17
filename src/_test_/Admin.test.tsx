@@ -26,7 +26,7 @@ const res = [
     }
 ]
 
-const res2 = { username: "omar", address: "Kastvindsgatan 2C lgh 2343, 41714, Gothenburg", token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Il9EV…DAyfQ.wbFkOKAKwsh5s8kRLHIfHEs2Y_X6raAMcOAvnqKsqEA", role: "admin" }
+const res2 = { username: "omar", address: "Kastvindsgatan 2C lgh 2343, 41714, Gothenburg", token: "someToken", role: "admin" }
 
 
 describe('Test Admin Panel Page', () => {

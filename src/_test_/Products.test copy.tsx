@@ -25,9 +25,9 @@ describe('Test Product Component', () => {
         }
     ]
     //an arbitrary value  for the second fetch response mock that match cart items calucation procedure
-    const res2 = { cartItemsNum: "0" }
+    const res2 = { cartItemsNum: "57" }
 
-    const res3 = { username: "omar", address: "Kastvindsgatan 2C lgh 2343, 41714, Gothenburg", token: "sometoken", role: "admin" }
+    const res3 = { username: "omar", address: "Kastvindsgatan 2C lgh 2343, 41714, Gothenburg", token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Il9EV…DAyfQ.wbFkOKAKwsh5s8kRLHIfHEs2Y_X6raAMcOAvnqKsqEA", role: "admin" }
 
 
     beforeEach(async () => {
@@ -44,7 +44,7 @@ describe('Test Product Component', () => {
             json: jest.fn().mockResolvedValue(res2)
         }
 
-       //  const spy = jest.spyOn(global, 'fetch').mockResolvedValueOnce(mockValueOne).mockResolvedValueOnce(mockValueTwo)
+        // const spy = jest.spyOn(global, 'fetch').mockResolvedValueOnce(mockValueOne).mockResolvedValueOnce(mockValueTwo)
         const spy = jest.spyOn(global, 'fetch').mockResolvedValueOnce(mockValueOne)
 
         await act(async () => {
@@ -176,18 +176,6 @@ describe('Test Product Component', () => {
 
     it("set cart items num to basket icon", async () => {
 
-        const mockValueOne: any = {
-
-            json: jest.fn().mockResolvedValue(res)
-        }
-
-        const mockValueTwo: any = {
-
-            json: jest.fn().mockResolvedValue(res2)
-        }
-
-        const spy = jest.spyOn(global, 'fetch').mockResolvedValueOnce(mockValueTwo)
-
         const basketIcon = screen.getByTestId("basket")
 
         const basketItemNum: any = basketIcon.getAttribute("data-value")
@@ -195,7 +183,7 @@ describe('Test Product Component', () => {
         expect(basketItemNum).toEqual(res2.cartItemsNum)
 
 
-    }) 
+    })
 
 
     it("Add a product to cart", async () => {

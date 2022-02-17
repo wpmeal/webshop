@@ -24,7 +24,7 @@ function App() {
 
       </Routes>
       <section>
-        Copyright © April 2021 | Omar Mahrous
+        Copyright © Feb 2022 | Omar Mahrous
       </section>
 
     </RecoilRoot>

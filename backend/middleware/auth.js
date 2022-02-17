@@ -25,8 +25,8 @@ const jwt = require('jsonwebtoken');
     // response with the catched error 
     response.status(401).
     json({
-      "error": "tokenVerifyError",
-      "message": "Permission Denied! Try to login again!"
+      "name": "tokenVerifyError",
+      "message": "Please login first!"
        });
   }
 }

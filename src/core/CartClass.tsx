@@ -157,11 +157,14 @@ export class CartClass {
         // handle the promsie of the response
         //res.then((val) => {
 
-        // // console.log(val);
+         //console.log(val);
 
         // if error get received, display it to client
         if (val.name || val.message) {
+
             alert(val.message);
+
+            return null
 
             // check if we have a valid data response witch is either an array of items or an empty array
         } else if (Array.isArray(val)) {
