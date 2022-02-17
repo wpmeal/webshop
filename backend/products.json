@@ -46,14 +46,6 @@
       "bild": "https://solidstarts.com/wp-content/uploads/Broccoli_edited-scaled.jpg",
       "stock": "35",
       "qty": 1,
-      "user_Id": "hFGlJMzZTKbBuPJYTAsJH"
-    },
-    {
-      "namn": "Broccoli",
-      "pris": "51.88",
-      "bild": "https://solidstarts.com/wp-content/uploads/Broccoli_edited-scaled.jpg",
-      "stock": "35",
-      "qty": 1,
       "user_Id": "_DW-mZnKlSyhlILuRn-YY"
     },
     {
@@ -63,6 +55,14 @@
       "stock": "56",
       "qty": 2,
       "user_Id": "_DW-mZnKlSyhlILuRn-YY"
+    },
+    {
+      "namn": "Gurka",
+      "pris": "33",
+      "bild": "/images/gurka.jpg",
+      "stock": "56",
+      "qty": 1,
+      "user_Id": "hFGlJMzZTKbBuPJYTAsJH"
     }
   ],
   "staff": [
