@@ -6,19 +6,24 @@ import Products from '../components/Products';
 
 
 
-export default function Admin(props:any) {
+export default function Admin(props: any) {
 
     return (
-<div className="wrapper">
+        <div className="wrapper">
             <header>
-                <h2> Admin Panel  </h2>
-                 <Link to="/">Home</Link>
-                <Login ></Login>
-            </header>
+                <div>
+                    <h2> Admin Panel  </h2>
+                    <Link to="/">Home</Link>
+                </div>
+                <div>&nbsp;</div>
+                <div>
+                    <Login ></Login>
+                </div>     
+                       </header>
             <main>
                 <Products page="admin" />
             </main>
-            </div>
+        </div>
 
     );
 }

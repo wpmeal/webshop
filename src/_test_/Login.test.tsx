@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event"
 
 import Login from '../components/Login';
 import { RecoilRoot } from 'recoil';
+import { BrowserRouter } from 'react-router-dom';
 
 
 describe('Test Login Component', () => {
@@ -13,7 +14,9 @@ describe('Test Login Component', () => {
     await act(async () => {
       render(
         <RecoilRoot>
-          <Login />
+          <BrowserRouter>
+            <Login />
+          </BrowserRouter>
         </RecoilRoot>
       );
     })

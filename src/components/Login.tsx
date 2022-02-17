@@ -4,11 +4,13 @@ import Button from "react-bootstrap/Button";
 import UserClass from "../core/UserClass";
 //import { userCtx } from "../App";
 import { useRecoilState } from "recoil";
-import {loggedInState} from "../atoms/loggedInState"
+import { loggedInState } from "../atoms/loggedInState"
+import { Link, useNavigate } from "react-router-dom";
+import { AnyTxtRecord } from "dns";
 
 export default function Login() {
 
- // const userCtxConsumer = useContext(userCtx)
+  // const userCtxConsumer = useContext(userCtx)
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,72 +18,86 @@ export default function Login() {
   const [error, setError] = useState("");
   const [displayForm, setDisplayForm] = useState(false);
 
-  const [loggedInUser, setLoggedInUser]:any = useRecoilState(loggedInState);
+  const [loggedInUser, setLoggedInUser]: any = useRecoilState(loggedInState);
+  const navigate:any = useNavigate();
 
-  
+
 
   const userClass = new UserClass()
-  
+
 
   function validateForm() {
     return email.length > 0 && password.length > 0;
   }
 
- async function handleSubmit(event:any) {
-   event.preventDefault();
+  async function handleSubmit(event: any) {
+    event.preventDefault();
 
- const result = await userClass.login(email, password)
-
-
-  if(!result.error){
-
-    // console.log(result)
-  
-    // save token received from backend 
-    await userClass.saveToken(result)
-
-     setDisplayForm(false)
-
- 
-
-     setLoggedInUser(result)
+    const result = await userClass.login(email, password)
 
 
- 
-}else{ // otherwise error occurs, display it!!
+    if (!result.error) {
 
-    setError(result.message)
+      // console.log(result)
 
-} 
+      // save token received from backend 
+      userClass.saveToken(result)
+
+      setDisplayForm(false)
+
+
+
+      setLoggedInUser(result)
+
+
+
+    } else { // otherwise error occurs, display it!!
+
+      setError(result.message)
+
+    }
   }
   const getLoggedInUser = () => {
 
 
-   const user:any = userClass.getLoggedInUser()
+    const user: any = userClass.getLoggedInUser()
 
-   // console.log(user)
+    if (user.username) {
 
-   if(user.username){
-
-   setDisplayForm(false)
-
-   
-   setLoggedInUser(user)
+      setDisplayForm(false)
 
 
-  
+      setLoggedInUser(user)
 
 
-   }else {
+
+
+
+    } else {
 
       setDisplayForm(true)
 
       setLoggedInUser({})
 
 
+    }
   }
+
+  const LogOut = (e: any) => {
+
+    e.preventDefault()
+
+    UserClass.deleteToken()
+  
+    setLoggedInUser({})
+
+    setDisplayForm(true)
+
+    navigate('/');
+
+
   }
-  useEffect(  () => {
+  useEffect(() => {
 
     getLoggedInUser()
 
@@ -89,11 +105,15 @@ export default function Login() {
 
   return (
     <div className="Login">{displayForm}
-  {loggedInUser.username &&
-   <div className="userInfo"><label><a data-testid="username" href="#">{loggedInUser.username}</a></label><div><label>Address:&nbsp;</label><label>{loggedInUser.address}</label></div></div>}
+      {loggedInUser.username &&
+        <div className="userInfo"><label><a data-testid="username" href="#">{loggedInUser.username}</a></label><div><label>Address:&nbsp;</label><label>{loggedInUser.address}</label></div>
+          {loggedInUser.role == "admin" && <Link to="/admin">Admin Panel</Link>}
+          <a href="#" onClick={LogOut}>Logout</a>
 
-   {displayForm && <Form onSubmit={handleSubmit}>
-        <Form.Group  controlId="email">
+        </div>}
+
+      {displayForm && <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="email">
           <Form.Label>Email:&nbsp;</Form.Label>
           <Form.Control
             autoFocus
@@ -116,13 +136,14 @@ export default function Login() {
         <b>{error}</b>
 
       </Form>
-  }
+      }
 
 
-  
 
-</div>
+
+    </div>
 
 
   );
 }
+

@@ -4,7 +4,7 @@
       "namn": "Vattenmelon",
       "pris": "501",
       "bild": "/images/vattenmellon.jpg",
-      "stock": "600"
+      "stock": "700"
     },
     {
       "namn": "Potatis",
@@ -25,16 +25,24 @@
       "bild": "/images/gurka.jpg"
     },
     {
-      "namn": "EEE",
+      "namn": "Banan",
       "pris": "991",
       "stock": "888",
       "bild": "/images/banan.jpg"
     }
   ],
-  "varukorg": [],
+  "varukorg": [
+    {
+      "namn": "Vattenmelon",
+      "pris": "501",
+      "bild": "/images/vattenmellon.jpg",
+      "stock": "700",
+      "qty": "1"
+    }
+  ],
   "staff": [
     {
-      "username": "Ada",
+      "username": "ada",
       "password": "$2b$10$zAaxd5Jk9xa0ARtnygdI5ue3Z/zmHNbwPCBkrP79.rLtuuybNCf5e",
       "id": "hFGlJMzZTKbBuPJYTAsJH",
       "address": "YellowStone valley, street 101, zipcode 4564645, Mi, USA",

@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import UserClass from "../core/UserClass";
 import ProductClass from "../core/ProductClass";
-import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { itemState } from "../atoms/ItemState";
 
@@ -11,16 +9,11 @@ import { itemState } from "../atoms/ItemState";
 export default function ItemForm(props: any) {
 
 
-  // console.log(props)
 
   const [name, setName] = useState("");
   const [pris, setPris] = useState("");
   const [bild, setBild] = useState("");
   const [stock, setStock] = useState("");
-
-  const [redirect1, setRedirect1] = useState(false);
-
-  const navigate = useNavigate();
 
   const [error, setError] = useState("");
 
@@ -46,30 +39,41 @@ export default function ItemForm(props: any) {
         setItem(result)
 
 
-
       } else { // otherwise error occurs, display it!!
 
         setError(result.message)
 
       }
-    } catch (e:any) {
+    } catch (e: any) {
+
       setError(e.message)
+
     }
   }
 
-  useEffect(() => {
+  function setvalues() {
     if (props.item) {
       setName(props.item.namn)
       setPris(props.item.pris)
       setBild(props.item.bild)
       setStock(props.item.stock)
+    } else {
+      setName("")
+      setPris("")
+      setBild("")
+      setStock("")
     }
+  }
+
+  useEffect(() => {
+
+    setvalues()
 
   }, [props])
 
   return (
 
-    <div className="">
+    <div className="AddItemForm">
 
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="name">
@@ -118,9 +122,12 @@ export default function ItemForm(props: any) {
             onChange={(e) => setStock(e.target.value)}
           />
         </Form.Group>
-        <Button data-testid="UpdateItemBtn" size="lg" type="submit" disabled={!validateForm()}>
-          Update/Create
-        </Button>
+        <Form.Group controlId="submit">
+          <Form.Label>&nbsp;</Form.Label>
+          <Button data-testid="UpdateItemBtn" size="lg" type="submit" disabled={!validateForm()}>
+            {props.item && "Update"} {!props.item && "Create"}
+          </Button>
+        </Form.Group>
         <b>{error}</b>
       </Form>
 

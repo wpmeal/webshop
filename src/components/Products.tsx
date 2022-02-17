@@ -186,10 +186,13 @@ function Products(props: any) {
   return (
 
     <>
-      <section>{form}
-        {!isAdmin && <Link to="cart">
+      {isAdmin && <section>
+      <a className="AddItem" href="#" data-testid="add" onClick={(e) => addItem(e)} >Add Item</a>
+        {form}
+      </section>}
+      <section>
+        {!isAdmin && <Link className='basket' to="/cart">
           <FontAwesomeIcon icon={icon} />
-
           <span className='badge badge-warning' id='lblCartCount' data-testid="basket" data-value={basketNum}>{basketNum}</span>
         </Link>}
         <Form onSubmit={handleSubmit}>
@@ -208,20 +211,19 @@ function Products(props: any) {
           </Button>
         </Form>
 
-        {isAdmin && <a href="#" data-testid="add" onClick={(e) => addItem(e)} >Add</a>}
       </section>
       {message && <b data-testid="message" data-value={message}></b>}
       <section id={!isAdmin ? "products" : "admin"}>
-        {items.length > 0 && items.map((el: any, i:any) => (
-          <article key={i}> 
+        {items.length > 0 && items.map((el: any, i: any) => (
+          <article key={i}>
             <div key={"details"}><aside><img src={el.bild} alt="product image" /></aside>
-            <p>{el.namn}</p>
-            <p>{!isAdmin && "Pris:"}&nbsp;{el.pris}</p>
-            <p>{!isAdmin && "Stock Qty:"}&nbsp;{el.stock}</p>
-            {isAdmin && <p><a href="#" data-testid="edit" onClick={(e) => editItem(e, el)} >Edit</a></p>}
-            {isAdmin && <p><a href="#" data-testid="delete" onClick={(e) => deleteItem(e, el.namn)} >Delete</a></p>}
+              <p>{el.namn}</p>
+              <p>{!isAdmin && "Pris:"}&nbsp;{el.pris}</p>
+              <p>{!isAdmin && "Stock Qty:"}&nbsp;{el.stock}</p>
+              {isAdmin && <p><a href="#" data-testid="edit" onClick={(e) => editItem(e, el)} >Edit</a></p>}
+              {isAdmin && <p><a href="#" data-testid="delete" onClick={(e) => deleteItem(e, el.namn)} >Delete</a></p>}
 
-          </div>
+            </div>
             {!isAdmin && <p key={"addToCart"}><button className="addToCart" onClick={e => addToCart(e, el.namn)} data-testid="1AddToCart"  >Add to cart</button></p>}
           </article>
 

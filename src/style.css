@@ -22,7 +22,7 @@ header {
     background: #adcee6;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    padding: 1%;
+    padding: 1.5% 3%;
 
 }
 /*
@@ -31,8 +31,12 @@ header {
 
 } */
 
+main{
+    padding: 1.5%;
+}
+
 main section {
-    padding: 3%;
+    padding: 1.5%;
 
 }
 main #products {
@@ -100,8 +104,7 @@ margin: 0;
 
     }
 
-    header > * {
-    }
+ 
     .userInfo  > * {
         display: block;
     }
@@ -136,6 +139,24 @@ margin: 0;
     }
 
     #admin > article > div{
-        display: inline-flex;
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
         width:100%;
+        
     }
+
+    .basket{
+        float:right
+    }
+
+    .AddItemForm > form{
+       display: inline-flex;
+    }
+    .AddItemForm > form > div{
+       padding:  0 0 1% 0;
+    }
+
+input[name="changeItemQty"]{
+    width: 15%;
+    padding: 5%;
+}

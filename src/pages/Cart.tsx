@@ -5,24 +5,26 @@ import Login from '../components/Login';
 
 
 export default function Cart() {
-    return (
-           <div className="wrapper shopping-cart">
+  return (
+    <div className="wrapper shopping-cart">
 
-              <header>
-             <Link to="/">Home</Link>
+      <header>
+        <div>
+          <h2> Varukorg Items  </h2>
+          <Link to="/">Home</Link>
+        </div>
+        <div>&nbsp;</div>
+        <div>
+          <Login ></Login>
+        </div>
 
-             <Link to="/Admin">Admin Panel</Link>
 
+      </header>
+      <main id="shopping-cart">
 
-            <h2> Varukorg Items  </h2>
-            <Login />
-
-        </header>
-        <main id="shopping-cart">
-            
-      <CartItems />
-    </main>
+        <CartItems />
+      </main>
     </div>
-        
-    );
+
+  );
 }

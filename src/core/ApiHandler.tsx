@@ -97,6 +97,7 @@ export default class ApiHandler {
             if(result.error == "tokenVerifyError" ){
 
                  UserClass.deleteToken()
+                 
                  window.location.assign("/")
             }
             // format the reponse as json
